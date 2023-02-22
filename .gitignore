@@ -2,3 +2,4 @@ api/node_modules
 client/node_modules
 client/.gitignore
 client/vite.config.js
+api/.env
