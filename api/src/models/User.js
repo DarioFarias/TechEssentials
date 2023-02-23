@@ -17,20 +17,21 @@ User.init({
         allowNull: false,
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         unique: true,
         allowNull: false,
     },
     tel: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
         allowNull: true,
     },
     role: {
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        allowNull: false,
     }
 }, {
     sequelize: dataBase,
-    modelName: "User"
+    modelName: "user"
 })
 
 export default User

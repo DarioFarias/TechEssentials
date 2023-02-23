@@ -1,32 +1,28 @@
 import { DataTypes, Model } from "sequelize";
 import dataBase from "../config/dataBase.js";
 
-class Product extends Model{}
+class Card extends Model{}
 
-Product.init({
-    idCategory: {
+Card.init({
+    idUser: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    name: {
+    cardNumber: {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    description: {
-        type: DataTypes.STRING(100),
+    ExpDate: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
     },
-    price: {
-        type: DataTypes.REAL,
-        allowNull: false,
-    },
-    stock: {
-        type: DataTypes.INTEGER,
+    cvv: {
+        type: DataTypes.STRING(5),
         allowNull: false,
     }
 }, {
     sequelize: dataBase,
-    modelName: "product"
+    modelName: "Card"
 })
 
-export default Product
+export default Card
