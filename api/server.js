@@ -2,15 +2,7 @@ import express from "express"
 import routes from "./src/routes/index.js"
 import dataBase from "./src/config/dataBase.js"
 import "dotenv/config"
-import User from "./src/models/user.js"
-import Ticket from "./src/models/Ticket.js"
-import Product from "./src/models/Product.js"
-import Order from "./src/models/Order.js"
-import Image from "./src/models/Image.js"
-import Category from "./src/models/Category.js"
-import Cart from "./src/models/Cart.js"
-import Card from "./src/models/Card.js"
-import Adress from "./src/models/Adress.js"
+import { User, Product, Category, Image, Ticket, Order, Cart, Card, Adress } from "./src/models/Index.js"
 
 const app = express();
 
