@@ -112,7 +112,7 @@ Order.belongsTo(Ticket, {
   },
 });
 
-Cart.hasMany(Product, {
+Cart.belongsTo(Product, {
   foreignKey: {
     name: "idProduct",
     allowNull: false,
