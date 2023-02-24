@@ -6,7 +6,7 @@ class User extends Model {}
 User.init(
   {
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(70),
       allowNull: false,
     },
     lastName: {
