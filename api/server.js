@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('tiny'))
 
-app.use("/api", routes)
+app.use("/tessentials", routes)
 
 await dataBase.sync({force: false}).then(
   ()=>{

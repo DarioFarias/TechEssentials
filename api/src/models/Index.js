@@ -16,16 +16,16 @@ User.hasMany(Ticket, {
 });
 
 User.hasMany(Adress, {
-  foreignKey: { name: "idUser", allowNull: true },
+  foreignKey: { name: "idUser", allowNull: false },
 });
 
 User.hasMany(Card, {
-  foreignKey: { name: "idUser", allowNull: true },
+  foreignKey: { name: "idUser", allowNull: false },
 });
 
-User.hasOne(Cart, {
-  foreignKey: { name: "idUser", allowNull: true },
-  unique: true,
+User.hasMany(Cart, {
+  foreignKey: { name: "idUser", allowNull: false },
+  unique:true,
 });
 
 Ticket.belongsTo(User, {
@@ -80,7 +80,7 @@ Image.belongsTo(Product, {
 Category.hasMany(Product, {
   foreignKey: {
     name: "idCategory",
-    allowNull: true,
+    allowNull: false,
   },
 });
 
