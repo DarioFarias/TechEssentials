@@ -1,25 +1,14 @@
 import express from "express";
+import CartController from "../controllers/CartController.js";
 
 const cartRoutes = express.Router();
 
-cartRoutes.get("/", (req, res) => {
-  res.send("Obtener todos los productos del carrito");
-});
+cartRoutes.post("/", CartController.createCart);
 
-cartRoutes.post("/", (req, res) => {
-  res.send("Nuevo producto en el carrito");
-});
+cartRoutes.get("/:id", CartController.getCartByUserId);
 
-cartRoutes.get("/:id", (req, res) => {
-  res.send("Buscar producto del carrito por su id");
-});
+cartRoutes.put("/:id", CartController.updateCartById);
 
-cartRoutes.put("/:id", (req, res) => {
-  res.send("Actualizar producto del carrito por su id");
-});
-
-cartRoutes.delete("/:id", (req, res) => {
-  res.send("Borrar producto del carrito por su id");
-});
+cartRoutes.delete("/:id", CartController.deleteCartById);
 
 export default cartRoutes;
