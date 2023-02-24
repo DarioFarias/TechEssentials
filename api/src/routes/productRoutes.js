@@ -1,25 +1,19 @@
 import express from "express";
+import ProductController from "../controllers/ProductController.js";
+
 
 const productRoutes = express.Router();
 
-productRoutes.get("/", (req, res) => {
-  res.send("Obtener todos los productos");
-});
+productRoutes.get("/", ProductController.getAllProducts);
 
-productRoutes.post("/", (req, res) => {
-  res.send("Crear producto");
-});
+productRoutes.get("/", ProductController.getProductsByCategoryId);
 
-productRoutes.get("/:id", (req, res) => {
-  res.send("Buscar producto por su id");
-});
+productRoutes.get("/:id", ProductController.getProductById);
 
-productRoutes.put("/:id", (req, res) => {
-  res.send("Actualizar producto por su id");
-});
+productRoutes.post("/", ProductController.createProduct);
 
-productRoutes.delete("/:id", (req, res) => {
-  res.send("Borrar producto por su id");
-});
+productRoutes.put("/:id", ProductController.updateProductById);
+
+productRoutes.delete("/:id", ProductController.deleteProductById);
 
 export default productRoutes;

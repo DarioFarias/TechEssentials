@@ -13,7 +13,7 @@ Product.init({
         allowNull: false,
     },
     description: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(300),
         allowNull: false,
     },
     price: {
