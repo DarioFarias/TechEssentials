@@ -10,7 +10,7 @@ class CategoryController {
           .send({ success: true, message: "Categorias encontradas", results });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, message: error });
+        res.status(400).send({ success: false, message: error.errors[0].message });
       });
   }
 
@@ -25,7 +25,7 @@ class CategoryController {
           results,
         });
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res.status(400).send({ success: false, message: error.errors[0].message });
     }
   }
 
@@ -42,7 +42,7 @@ class CategoryController {
         .status(200)
         .send({ success: true, message: "Categoria encontrada", results });
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res.status(400).send({ success: false, message: error.errors[0].message });
     }
   }
 
@@ -65,7 +65,7 @@ class CategoryController {
         });
       }
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res.status(400).send({ success: false, message: error.errors[0].message });
     }
 }
 
@@ -93,7 +93,7 @@ static async updateCategoryById(req, res) {
           }
       });
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res.status(400).send({ success: false, message: error.errors[0].message });
     }
   }
 

@@ -2,7 +2,9 @@ import User from "../models/User.js";
 
 class UserController {
   static async getAllUsers(req, res) {
-    await User.findAll({ attributes: ["Id", "name", "lastName", "email", "tel", "role"] })
+    await User.findAll({
+      attributes: ["Id", "name", "lastName", "email", "tel", "role"],
+    })
       .then((results) => {
         if (results.length === 0) throw "No hay usuarios para mostrar";
         res
@@ -10,22 +12,24 @@ class UserController {
           .send({ success: true, message: "Usuarios encontrados", results });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, message: error });
+        res
+          .status(400)
+          .send({ success: false, message: error.errors[0].message });
       });
   }
 
   static async createUser(req, res) {
     try {
       const results = await User.create(req.body);
-      res
-        .status(200)
-        .send({
-          success: true,
-          message: "Usuario creado con exito",
-          results,
-        });
+      res.status(200).send({
+        success: true,
+        message: "Usuario creado con exito",
+        /* results, */
+      });
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res
+        .status(400)
+        .send({ success: false, message: error.errors[0].message });
     }
   }
 
@@ -42,7 +46,9 @@ class UserController {
         .status(200)
         .send({ success: true, message: "Usuario encontrado", results });
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res
+        .status(400)
+        .send({ success: false, message: error.errors[0].message });
     }
   }
 
@@ -65,35 +71,52 @@ class UserController {
         });
       }
     } catch (error) {
-      res.status(400).send({ success: false, message: error });
+      res
+        .status(400)
+        .send({ success: false, message: error.errors[0].message });
     }
-}
+  }
 
-static async updateUserById(req, res) {
+  static async updateUserById(req, res) {
     try {
-  
-      const result = await User.update( req.body , {
+      const result = await User.update(req.body, {
         where: {
           id: req.params.id,
         },
       });
-  
+
       if (result[0] === 0) {
         throw "No se encontró el usuario";
       }
-  
+
       res.status(200).send({
         success: true,
         message: "Usuario actualizado correctamente",
-        category: req.body
+        /* changes: req.body, */
       });
+    } catch (error) {
+      res
+        .status(400)
+        .send({ success: false, message: error.errors[0].message });
+    }
+  }
+
+  static async logIn(req, res) {
+    try {
+      const { email, password } = req.body;
+      const results = await User.findOne({
+        where: {
+          email,
+        },
+      });
+      if (!results) throw "Usuario no existe";
+      if (!(await results.validatePassword(password)))
+        throw "Contraseña incorrecta";
+      res.status(200).send({ success: true, message: "Usuario logeado" });
     } catch (error) {
       res.status(400).send({ success: false, message: error });
     }
   }
-
-  }
-
-
+}
 
 export default UserController;

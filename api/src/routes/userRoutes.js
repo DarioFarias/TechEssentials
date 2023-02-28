@@ -13,4 +13,6 @@ userRoutes.put("/:id", UserController.updateUserById);
 
 userRoutes.delete("/:id", UserController.deleteUserById);
 
+userRoutes.post("/login", UserController.logIn);
+
 export default userRoutes;
