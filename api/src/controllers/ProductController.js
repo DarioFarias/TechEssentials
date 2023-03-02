@@ -10,7 +10,7 @@ class ProductController {
           .send({ success: true, message: "Productos encontrados", results });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, message: error.errors[0].message });
+        res.status(400).send({ success: false, message: error });
       });
   }
 
@@ -25,7 +25,7 @@ class ProductController {
           results,
         });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 
@@ -42,7 +42,7 @@ class ProductController {
         .status(200)
         .send({ success: true, message: "Producto encontrado", results });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 
@@ -59,7 +59,7 @@ class ProductController {
         .status(200)
         .send({ success: true, message: "Productos encontrados", results });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 
@@ -82,7 +82,7 @@ class ProductController {
         });
       }
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
 }
 
@@ -105,7 +105,7 @@ static async updateProductById(req, res) {
         changes: req.body
       });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 

@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { generateToken, verify } from "../config/token.js";
 
 class UserController {
   static async getAllUsers(req, res) {
@@ -12,24 +13,20 @@ class UserController {
           .send({ success: true, message: "Usuarios encontrados", results });
       })
       .catch((error) => {
-        res
-          .status(400)
-          .send({ success: false, message: error.errors[0].message });
+        res.status(400).send({ success: false, message: error });
       });
   }
 
   static async createUser(req, res) {
     try {
+      req.body.status = "on";
       const results = await User.create(req.body);
       res.status(200).send({
         success: true,
         message: "Usuario creado con exito",
-        /* results, */
       });
     } catch (error) {
-      res
-        .status(400)
-        .send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error });
     }
   }
 
@@ -46,34 +43,36 @@ class UserController {
         .status(200)
         .send({ success: true, message: "Usuario encontrado", results });
     } catch (error) {
-      res
-        .status(400)
-        .send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error });
     }
   }
 
   static async deleteUserById(req, res) {
     try {
-      const RowsDeleted = await User.destroy({
+      const results = await User.findOne({
         where: {
           id: req.params.id,
         },
+        attributes: ["status"],
       });
-      if (RowsDeleted === 0) {
-        res.status(404).send({
-          success: false,
-          message: "No se encontró el usuario",
+      if (!results || results.status === "off")
+        throw "No se encontro el usuario";
+      try {
+        req.body.status = "off";
+        const result = await User.update(req.body, {
+          where: {
+            id: req.params.id,
+          },
         });
-      } else {
         res.status(200).send({
           success: true,
-          message: `Usuario eliminado.`,
+          message: "Baja del usuario exitosa",
         });
+      } catch (error) {
+        res.status(400).send({ success: false, message: error });
       }
     } catch (error) {
-      res
-        .status(400)
-        .send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error });
     }
   }
 
@@ -95,9 +94,7 @@ class UserController {
         /* changes: req.body, */
       });
     } catch (error) {
-      res
-        .status(400)
-        .send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error });
     }
   }
 
@@ -112,10 +109,27 @@ class UserController {
       if (!results) throw "Usuario no existe";
       if (!(await results.validatePassword(password)))
         throw "Contraseña incorrecta";
+      const payload = {
+        email: results.email,
+        role: results.role,
+      };
+      const token = generateToken(payload);
+      res.cookie("token", token);
       res.status(200).send({ success: true, message: "Usuario logeado" });
     } catch (error) {
       res.status(400).send({ success: false, message: error });
     }
+  }
+
+  static async me(req, res) {
+    res
+      .status(200)
+      .send({ success: true, message: "Usuario logueado", result: req.user });
+  }
+
+  static async logOut(req, res) {
+    res.clearCookie("token");
+    res.send(204);
   }
 }
 

@@ -34,10 +34,13 @@ User.init(
     },
     role: {
       type: DataTypes.STRING(25),
-      allowNull: false,
+      allowNull: true,
     },
     salt: {
       type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.STRING(10),
     },
   },
   {
@@ -53,5 +56,11 @@ User.beforeCreate(async (user) => {
   const hash = await bcrypt.hash(user.password, user.salt);
   user.password = hash;
 });
+
+User.afterCreate(async user => {
+  if (user.id === 1) {
+      return await user.update({ role: "admin" })
+  }
+})
 
 export default User;

@@ -14,7 +14,7 @@ class CartController {
           results,
         });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 
@@ -31,7 +31,7 @@ class CartController {
         .status(200)
         .send({ success: true, message: "Productos encontrados", results });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
   }
 
@@ -54,7 +54,7 @@ class CartController {
         });
       }
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error});
     }
 }
 
@@ -81,7 +81,7 @@ static async updateCartById(req, res) {
           }
       });
     } catch (error) {
-      res.status(400).send({ success: false, message: error.errors[0].message });
+      res.status(400).send({ success: false, message: error });
     }
   }
 
