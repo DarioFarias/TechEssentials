@@ -13,10 +13,10 @@ const Login = () => {
             <Link to="/">
                 <img
                     className="h-12 cursor-pointer"
-                    src="../../public/Logo.svg"
+                    src="/Logo.svg"
                 />
             </Link>
-            <form className="w-3/6 flex flex-col w-full h-full justify-center items-center gap-7" action="">
+            <form className="flex flex-col w-full h-full justify-center items-center gap-7" action="">
                 <input
                     type="text"
                     {...register("email", {
@@ -26,7 +26,7 @@ const Login = () => {
                         pattern:
                             /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
                     })}
-                    placeholder="Email"
+                    placeholder="Correo electronico"
                     className="rounded-2xl h-12 w-60 text-center"
                 />
                 {errors?.email?.type === "pattern" && (
@@ -40,14 +40,14 @@ const Login = () => {
                 <input
                     type="password"
                     {...register("password")}
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     className="rounded-2xl h-12 w-60 text-center"
                 />
                 <div className="flex flex-col flex-wrap justify-center">
                     <Link to="" className="btnGris">
                         Ingresar
                     </Link>
-                    <Link to="/register" className="btnIndigo">
+                    <Link to="/register" className="btnGris">
                         Registro
                     </Link>
                 </div>
