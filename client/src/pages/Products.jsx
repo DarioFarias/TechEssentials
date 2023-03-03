@@ -5,7 +5,7 @@ const Products = () => {
         <>
             <div className="flex bg-black w-full p-4 justify-evenly flex-wrap gap-4">
                 <div class="relative">
-                    <input
+                    <input  
                         type="text"
                         list="categorias"
                         name="categoria"
