@@ -110,6 +110,7 @@ class UserController {
       if (!(await results.validatePassword(password)))
         throw "Contraseña incorrecta";
       const payload = {
+        id: results.id,
         email: results.email,
         role: results.role,
       };

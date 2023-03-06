@@ -63,7 +63,7 @@ Product.hasMany(Order, {
   },
 });
 
-Product.hasMany(Cart, {
+Product.hasOne(Cart, {
   foreignKey: {
     name: "idProduct",
     allowNull: false,
