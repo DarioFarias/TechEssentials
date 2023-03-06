@@ -9,12 +9,15 @@ import Products from "../pages/Products";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Contact from "../pages/Contact";
-import Layout from "../layouts/Layout";
+import App from "../App";
+import Admin from "../components/Admin";
+import ControlPanel from "../pages/ControlPanel";
+import Logout from "../components/Logout";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: <App />,
         children: [
             {
                 index: true,
@@ -44,6 +47,16 @@ const router = createBrowserRouter([
                 path: "/cart",
                 element: <Cart />,
             },
+            {
+                path: "/admin",
+                element: <Admin />,
+                children: [
+                    {
+                        index:true,
+                        element: <ControlPanel/>
+                    }
+                ]
+            },
         ],
     },
     {
@@ -53,6 +66,10 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />,
+    },
+    {
+        path: "/logout",
+        element: <Logout />,
     },
 ]);
 

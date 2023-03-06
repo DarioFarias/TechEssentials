@@ -65,6 +65,9 @@ const Navbar = () => {
                         <Link to="/register" className="btnIndigo">
                             Registro
                         </Link>
+                        <Link to="/logout" className="btnGris">
+                            Salir
+                        </Link>
                     </div>
                 </div>
             </div>
