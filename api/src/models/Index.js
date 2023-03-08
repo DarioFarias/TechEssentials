@@ -2,13 +2,13 @@ import User from "./User.js";
 import Product from "./Product.js";
 import Category from "./Category.js";
 import Image from "./Image.js";
-import Ticket from "./Ticket.js";
+import OrderProduct from "./OrderProduct.js";
 import Order from "./Order.js";
 import Cart from "./Cart.js";
 import Card from "./Card.js";
 import Adress from "./Adress.js";
 
-User.hasMany(Ticket, {
+User.hasMany(Order, {
   foreignKey: {
     name: "idUser",
     allowNull: true,
@@ -28,16 +28,16 @@ User.hasMany(Cart, {
   unique:true,
 });
 
-Ticket.belongsTo(User, {
+Order.belongsTo(User, {
   foreignKey: {
     name: "idUser",
     allowNull: false,
   },
 });
 
-Ticket.hasMany(Order, {
+Order.hasMany(OrderProduct, {
   foreignKey: {
-    name: "idTicket",
+    name: "idOrder",
     allowNull: false,
   },
 });
@@ -56,7 +56,7 @@ Product.hasMany(Image, {
   },
 });
 
-Product.hasMany(Order, {
+Product.hasMany(OrderProduct, {
   foreignKey: {
     name: "idProduct",
     allowNull: false,
@@ -98,16 +98,16 @@ Adress.belongsTo(User, {
   },
 });
 
-Order.belongsTo(Product, {
+OrderProduct.belongsTo(Product, {
   foreignKey: {
     name: "idProduct",
     allowNull: false,
   },
 });
 
-Order.belongsTo(Ticket, {
+OrderProduct.belongsTo(Order, {
   foreignKey: {
-    name: "idTicket",
+    name: "idOrder",
     allowNull: false,
   },
 });
@@ -126,4 +126,4 @@ Cart.belongsTo(User, {
   },
 });
 
-export { User, Product, Category, Image, Ticket, Order, Cart, Card, Adress };
+export { User, Product, Category, Image, OrderProducts, Order, Cart, Card, Adress };

@@ -1,29 +1,30 @@
-import Cart from "../models/Cart.js";
+import OrderProduct from "../models/OrderProduct.js";
 
-class CartController {
-    static async createCart(req, res) {
+class OrderProductController {
+    // ANTES DE REALIZAR EL CREATE EL MIDDLEWARE checkProductStock DEBE COMPROBAR QUE TODOS LOS PRODUCTOS CUENTAN CON EL STOCK
+    // ANTES DE REALIZAR EL CREATE CON UN BEFORE CREATE SE DEBE CREAR LA ORDEN EN LA TABLA ORDER, PARA ESO SE DEBE USAR REQ.PRODUCTS PARA CREAR EL OBJETO CON EL TOTAL DE TODO EL PEDIDO
+    static async bulkCreateOrderProducts(req, res) {
         try {
-            req.body.idUser = req.user.id;
-            const results = await Cart.create(req.body);
+            const results = await OrderProduct.bulkCreate(req.body);
             res.status(200).send({
                 success: true,
-                message: "Elemento del carrito creado con exito",
                 results,
             });
         } catch (error) {
             res.status(400).send({ success: false, message: error });
         }
+        // DESPUES DE REALIZAR EL CREATE SE DEBE RESTAR DE PRODUCTS EL STOCK DE CADA PRODUCTO CON UN AFTER CREATE
     }
 
-    static async getCartByUserId(req, res) {
+    static async getOrderProductsByOrderId(req, res) {
         try {
-            const results = await Cart.findAll({
+            const results = await OrderProduct.findAll({
                 where: {
-                    idUser: req.user.id,
+                    idOrder: req.params.id,
                 },
-                attributes: ["idProduct", "quantity"],
+                attributes: ["idProduct", "quantity", "price"],
             });
-            if (results == 0) throw "No se encontraron elementos en el carrito";
+            if (results == 0) throw "No se encontraron elementos en la orden";
             res.status(200).send({
                 success: true,
                 message: "Productos encontrados",
@@ -34,9 +35,9 @@ class CartController {
         }
     }
 
-    static async deleteCartById(req, res) {
+    /*     static async deleteOrderProductById(req, res) {
         try {
-            const RowsDeleted = await Cart.destroy({
+            const RowsDeleted = await OrderProduct.destroy({
                 where: {
                     id: req.params.id,
                 },
@@ -55,13 +56,13 @@ class CartController {
         } catch (error) {
             res.status(400).send({ success: false, message: error });
         }
-    }
+    } */
 
-    static async updateCartById(req, res) {
+    /*     static async updateOrderProductById(req, res) {
         try {
             const { quantity } = req.body;
 
-            const result = await Cart.update(
+            const result = await OrderProduct.update(
                 { quantity },
                 {
                     where: {
@@ -85,7 +86,7 @@ class CartController {
         } catch (error) {
             res.status(400).send({ success: false, message: error });
         }
-    }
+    } */
 }
 
-export default CartController;
+export default OrderProductController;

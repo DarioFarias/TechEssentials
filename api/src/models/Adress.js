@@ -26,7 +26,6 @@ Adress.init({
     },
     city: {
         type: DataTypes.STRING(50),
-        unique: true,
         allowNull: false,
     },
     state: {

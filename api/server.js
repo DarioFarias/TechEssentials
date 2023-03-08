@@ -1,5 +1,5 @@
 import express from "express"
-import morgan from "morgan"
+/* import morgan from "morgan" */
 import routes from "./src/routes/index.js"
 import dataBase from "./src/config/dataBase.js"
 import "dotenv/config"

@@ -99,7 +99,7 @@ const Login = () => {
                     <p className="font-bold">Cargando...</p>
                 ) : error ? (
                     <p className="text-red-700 font-bold">
-                        {error?.data.message}
+                        El usuario no existe
                     </p>
                 ) : null}
 

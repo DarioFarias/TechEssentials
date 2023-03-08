@@ -102,7 +102,6 @@ static async updateProductById(req, res) {
       res.status(200).send({
         success: true,
         message: "Producto actualizado correctamente",
-        changes: req.body
       });
     } catch (error) {
       res.status(400).send({ success: false, message: error});

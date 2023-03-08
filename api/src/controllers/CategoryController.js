@@ -86,11 +86,6 @@ static async updateCategoryById(req, res) {
       res.status(200).send({
         success: true,
         message: "Categoría actualizada correctamente",
-        category: {
-            id: req.params.id,
-            name: name,
-            description: description
-          }
       });
     } catch (error) {
       res.status(400).send({ success: false, message: error});

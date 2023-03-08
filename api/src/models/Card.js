@@ -12,7 +12,7 @@ Card.init({
         type: DataTypes.STRING(50),
         allowNull: false,
     },
-    ExpDate: {
+    expDate: {
         type: DataTypes.DATEONLY,
         allowNull: false,
     },

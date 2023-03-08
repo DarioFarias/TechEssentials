@@ -4,22 +4,18 @@ import dataBase from "../config/dataBase.js";
 class Order extends Model{}
 
 Order.init({
-    idTicket: {
+    idUser: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    idProduct: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    quantity: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    price: {
+    total: {
         type: DataTypes.REAL,
         allowNull: false,
-    }
+    },
+    status: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
+    },
 }, {
     sequelize: dataBase,
     modelName: "Order"
