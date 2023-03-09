@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogInMutation } from "../store/services/userService";
-import Footer from '../components/Footer';
+import Footer from "../components/Footer";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -12,10 +12,10 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm({ mode: "onChange" });
-    
+
     const navigate = useNavigate();
     const [login, { isLoading, error, data }] = useLogInMutation();
-    
+
     const submit = (formData) => login(formData);
 
     useEffect(() => {
@@ -25,7 +25,6 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
 
     return (
         <div className="flex flex-col items-center justify-evenly min-h-screen flex-grow bg-indigo-600">
@@ -113,11 +112,9 @@ const Login = () => {
                     </Link>
                 </div>
             </form>
+            <Footer />
         </div>
-      </form>
-      <Footer />
-    </div>
-  );
+    );
 };
 
 export default Login;
