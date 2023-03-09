@@ -16,11 +16,11 @@ const Contact = () => {
   return (
     <div
       id="FlexContainer"
-      className="flex flex-col items-center justify-evenly min-h-screen flex-grow bg-indigo-600"
+      className="flex flex-col items-center justify-evenly min-h-screen flex-grow bg-indigo-600 "
     >
       <form
         id="ContenedorFormulario"
-        className="flex flex-col w-full h-full justify-center items-center gap-2"
+        className="flex flex-col w-full h-full justify-center items-center gap-4 md:gap-10 "
         action=""
       >
         <div
@@ -29,9 +29,9 @@ const Contact = () => {
         >
           <label
             id="Mensaje"
-            className="object-center text-center font-bold my-4 text-white font-sans text-2xl"
+            className="object-center text-center font-bold my-4 text-white font-sans text-2xl "
           >
-            Hola!!, tienes dudas con tu pedido o alguna sugerencia ??
+            Hola!, ¿Tienes dudas con tu pedido o alguna sugerencia?
           </label>
 
           <label
@@ -46,7 +46,7 @@ const Contact = () => {
           type="text"
           {...register('name')}
           placeholder="Nombre completo"
-          className="rounded-2xl h-12 w-60 text-center"
+          className="rounded-2xl h-12 w-60 text-center md:w-1/2 "
         />
 
         <input
@@ -59,7 +59,7 @@ const Contact = () => {
               /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
           })}
           placeholder="Correo electronico"
-          className="rounded-2xl h-12 w-60 text-center"
+          className="rounded-2xl h-12 w-60 text-center md:w-1/2 "
         />
         {errors?.email?.type === 'pattern' && <p>Pone un email con onda</p>}
         {errors?.email?.type === 'required' && (
@@ -72,18 +72,18 @@ const Contact = () => {
           type="text"
           {...register('asunto')}
           placeholder="Asunto"
-          className="rounded-2xl h-12 w-60 text-center"
+          className="rounded-2xl h-12 w-60 text-center md:w-1/2 "
         />
 
         <input
           type="text"
           {...register('mensaje')}
           placeholder="Mensaje"
-          className="rounded-2xl h-40 w-60 text-center"
+          className="rounded-2xl h-40 w-60 text-center md:w-1/2 "
         />
 
-        <div className="flex flex-col flex-wrap justify-center">
-          <Link to="/register" className="btnGris">
+        <div className="flex flex-col flex-wrap justify-center items-center ">
+          <Link to="/register" className="btnGris ">
             Enviar
           </Link>
         </div>

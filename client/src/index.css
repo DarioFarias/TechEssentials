@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.btnIndigo{
-    @apply text-white text-center w-28 m-1 py-2.5 px-5 rounded-2xl bg-indigo-700 hover:bg-indigo-500 transition duration-500
+.btnIndigo {
+  @apply text-white text-center w-28 m-1 py-2.5 px-5 rounded-2xl bg-indigo-700 hover:bg-indigo-500 transition duration-500;
 }
 
-.btnGris{
-    @apply text-white text-center w-28 m-1 py-2.5 px-5 rounded-2xl bg-gray-800 hover:bg-gray-600 transition duration-500
+.btnGris {
+  @apply text-white text-center w-28 m-1 py-2.5  rounded-2xl bg-gray-800 hover:bg-gray-600 transition duration-500;
+}
+.btnGrisPerfil {
+  @apply text-white text-center w-32 md:w-44 m-1 py-2.5 md:text-2xl  rounded-2xl bg-gray-800 hover:bg-gray-600 transition duration-500;
 }
