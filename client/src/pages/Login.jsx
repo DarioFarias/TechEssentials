@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogInMutation } from "../store/services/userService";
+import Footer from '../components/Footer';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +48,7 @@ const Login = () => {
                             /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
                     })}
                     placeholder="Correo electronico"
-                    className={` rounded-2xl h-12 w-60 text-center ${
+                    className={` rounded-2xl h-12 w-60 text-center md:w-1/2 md:px-8 ${
                         errors?.email ? "bg-yellow-100" : ""
                     }`}
                 />
@@ -75,7 +76,7 @@ const Login = () => {
                         pattern: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/i,
                     })}
                     placeholder="Contraseña"
-                    className={` rounded-2xl h-12 w-60 text-center ${
+                    className={` rounded-2xl h-12 w-60 text-center md:w-1/2 md:px-8  ${
                         errors?.password ? "bg-yellow-100" : ""
                     }`}
                 />
@@ -103,7 +104,7 @@ const Login = () => {
                     </p>
                 ) : null}
 
-                <div className="flex flex-col flex-wrap justify-center">
+                <div className="flex flex-col flex-wrap justify-center gap-4 md:gap-10">
                     <button type="submit" className="btnGris">
                         Ingresar
                     </button>
@@ -113,7 +114,10 @@ const Login = () => {
                 </div>
             </form>
         </div>
-    );
+      </form>
+      <Footer />
+    </div>
+  );
 };
 
 export default Login;
