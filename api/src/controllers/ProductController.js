@@ -7,7 +7,7 @@ class ProductController {
         if (results.length === 0) throw "No hay productos para mostrar";
         res
           .status(200)
-          .send({ success: true, message: "Productos encontrados", results });
+          .send(results);
       })
       .catch((error) => {
         res.status(400).send({ success: false, message: error });
@@ -52,12 +52,12 @@ class ProductController {
         where: {
           idCategory: req.params.id,
         },
-        attributes: ["id", "idCategory", "name", "description", "price", "stock"],
+        attributes: ["id", "name", "description", "price", "stock"],
       });
       if (results==0) throw "No se encontraron productos";
       res
         .status(200)
-        .send({ success: true, message: "Productos encontrados", results });
+        .send(results);
     } catch (error) {
       res.status(400).send({ success: false, message: error});
     }

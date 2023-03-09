@@ -7,7 +7,7 @@ class CategoryController {
         if (results.length === 0) throw "No hay categorias para mostrar";
         res
           .status(200)
-          .send({ success: true, message: "Categorias encontradas", results });
+          .send(results);
       })
       .catch((error) => {
         res.status(400).send({ success: false, message: error});
