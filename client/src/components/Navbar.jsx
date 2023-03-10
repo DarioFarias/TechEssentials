@@ -1,7 +1,11 @@
 import React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { userContext } from "../context/UserContext";
 
 const Navbar = () => {
+    const { user } = useContext(userContext);
+
     const openMenu = () => {
         const bMenu = document.getElementById("menu");
 
@@ -16,10 +20,7 @@ const Navbar = () => {
         <nav className="bg-gray-500  min-w-max">
             <div className="flex items-center justify-between h-16 p-4">
                 <Link to="/">
-                    <img
-                        className="h-8 cursor-pointer"
-                        src="/Logo.svg"
-                    />
+                    <img className="h-8 cursor-pointer" src="/Logo.svg" />
                 </Link>
 
                 <img
@@ -39,18 +40,22 @@ const Navbar = () => {
                         >
                             Productos
                         </Link>
-                        <Link
-                            to="/cart"
-                            className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
-                        >
-                            Carrito
-                        </Link>
-                        <Link
-                            to="/profile"
-                            className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
-                        >
-                            Perfil
-                        </Link>
+                        {user ? (
+                            <>
+                                <Link
+                                    to="/cart"
+                                    className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
+                                >
+                                    Carrito
+                                </Link>
+                                <Link
+                                    to="/profile"
+                                    className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
+                                >
+                                    Perfil
+                                </Link>
+                            </>
+                        ) : null}
                         <Link
                             to="/contact"
                             className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
@@ -59,15 +64,20 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="flex flex-wrap justify-center">
-                        <Link to="/login" className="btnGris">
-                            Ingresar
-                        </Link>
-                        <Link to="/register" className="btnIndigo">
-                            Registro
-                        </Link>
-                        <Link to="/logout" className="btnGris">
-                            Salir
-                        </Link>
+                        {!user ? (
+                            <>
+                                <Link to="/login" className="btnGris">
+                                    Ingresar
+                                </Link>
+                                <Link to="/register" className="btnIndigo">
+                                    Registro
+                                </Link>
+                            </>
+                        ) : (
+                            <Link to="/logout" className="btnGris">
+                                Salir
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

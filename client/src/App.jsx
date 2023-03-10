@@ -1,8 +1,10 @@
-import Layout from "./layouts/Layout"
+import { UserContext } from "./context/UserContext";
+import Layout from "./layouts/Layout";
 
 function App() {
-  return (
-    <Layout/>
-  )
+    return (
+            <Layout />
+    );
 }
-export default App
+
+export default App;

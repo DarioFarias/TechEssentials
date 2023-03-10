@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { userContext } from "../context/UserContext.jsx"
 import { useLogInMutation } from "../store/services/userService";
-import Footer from "../components/Footer";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-
+    const { user, setLogin} = useContext(userContext);
     const {
         register,
         handleSubmit,
@@ -19,7 +19,10 @@ const Login = () => {
     const submit = (formData) => login(formData);
 
     useEffect(() => {
-        if (data) navigate("/");
+        if (data) {
+            setLogin()
+            navigate("/");
+        }
     }, [submit]);
 
     const togglePasswordVisibility = () => {
@@ -112,7 +115,6 @@ const Login = () => {
                     </Link>
                 </div>
             </form>
-            <Footer />
         </div>
     );
 };

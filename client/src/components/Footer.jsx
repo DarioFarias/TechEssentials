@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className="object-center text-center flex flex-col items-center justify gap-2 md:gap-16">
+    <div className="bg-indigo-600 object-center text-center flex flex-col items-center justify p-8">
       <div
         id="footerLogos"
-        className="flex table-rowitems-center justify-evenly w-full flex-wrap p-4 gap-4 md:gap-16 "
+        className="flex table-rowitems-center justify-evenly w-full flex-wrap p-4 gap-4"
       >
         <div id="LoginTw">
           <Link to="/">
@@ -26,7 +26,7 @@ const Footer = () => {
       </div>
       <div
         id="DatosContacto"
-        className="flex flex-col justify-center items-center gap-2 md:gap-10 "
+        className="flex flex-col justify-center items-center gap-2"
       >
         <div id="telefonoContainer">
           <label

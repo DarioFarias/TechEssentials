@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { userContext } from "../context/UserContext";
 import LogoutPage from "../pages/LogoutPage";
 import { useLogOutMutation } from "../store/services/userService";
 
 const Logout = () => {
+    const {setLogout} = useContext(userContext)
 
   const navigate = useNavigate();
   const [logout] = useLogOutMutation()
@@ -11,6 +13,7 @@ const Logout = () => {
   useEffect(() => {
     logout();
     setTimeout(() => {
+        setLogout()
         navigate("/")
     }, 3000);
     return clearTimeout();

@@ -23,7 +23,7 @@ const Products = () => {
     };
 
     return (
-        <>
+        <div className="flex flex-col">
             <div className="flex bg-black w-full p-4 justify-evenly flex-wrap gap-4">
                 <div className="relative w-60">
                     <select
@@ -71,7 +71,7 @@ const Products = () => {
                     ))
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

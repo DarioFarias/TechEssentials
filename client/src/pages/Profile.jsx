@@ -370,7 +370,6 @@ const Profile = () => {
             </Link>
           </div>
         </form>
-        <Footer />
       </div>
       {/* Este es el div que cierra el modo desktop */}
     </div>
