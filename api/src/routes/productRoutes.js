@@ -8,7 +8,7 @@ const productRoutes = express.Router();
 
 productRoutes.get("/", ProductController.getAllProducts);
 
-productRoutes.get("/searchbycategory/:id", ProductController.getProductsByCategoryId);
+productRoutes.post("/searchbyfilters", ProductController.getProductsByFilters);
 
 productRoutes.get("/:id", ProductController.getProductById);
 

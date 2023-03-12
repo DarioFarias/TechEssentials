@@ -10,8 +10,12 @@ export const products = createApi({
         getProductById: builder.query({
             query: (id) => `/${id}`,
         }),
-        getProductsByCategoryId: builder.query({
-            query: (id) => `/searchbycategory/${id}`,
+        getProductsByFilters: builder.mutation({
+            query: (body) => ({
+                url:`/searchbyfilters`,
+                method:"POST",
+                body,
+            }),
         }),
         createProduct: builder.mutation({
             query: (body) => ({
@@ -38,7 +42,7 @@ export const products = createApi({
 
 export const {
     useGetAllProductsQuery,
-    useGetProductsByCategoryIdQuery,
+    useGetProductsByFiltersMutation,
     useDeleteProductByIdMutation,
     useCreateProductMutation,
     useGetProductByIdQuery,
