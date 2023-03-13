@@ -1,9 +1,9 @@
-import express from "express"
+import express from 'express';
 /* import morgan from "morgan" */
-import routes from "./src/routes/index.js"
-import dataBase from "./src/config/dataBase.js"
-import "dotenv/config"
-import cookieParser from "cookie-parser"
+import routes from './src/routes/index.js';
+import dataBase from './src/config/dataBase.js';
+import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
