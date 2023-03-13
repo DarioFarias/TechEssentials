@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { userContext } from "../context/UserContext";
 
 const Navbar = () => {
-    const { user } = useContext(userContext);
-
+    const {getUser} = useContext(userContext)
+    const user = getUser()
+    
     const openMenu = () => {
         const bMenu = document.getElementById("menu");
 

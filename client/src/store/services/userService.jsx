@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const users = createApi({
     reducerPath: "users",
     baseQuery: fetchBaseQuery({ baseUrl: "/tessentials/user" }),
+    tagTypes: ["me"],
     endpoints: (builder) => ({
         getAllUsers: builder.query({
             query: () => "",
@@ -36,15 +37,18 @@ export const users = createApi({
                 method: "POST",
                 body,
             }),
+            invalidatesTags:["me"],
         }),
         me: builder.query({
             query: () => "/me",
+            providesTags:["me"],
         }),
         logOut: builder.mutation({
             query: () => ({
                 url: `/logout`,
                 method: "POST",
             }),
+            invalidatesTags:["me"],
         }),
     }),
 });

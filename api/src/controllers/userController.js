@@ -125,7 +125,7 @@ class UserController {
             };
             const token = generateToken(payload);
             res.cookie("token", token);
-            res.status(200).send({ success: true, message: "Usuario logeado" });
+            res.status(200).send(payload);
         } catch (error) {
             res.status(400).send({ success: false, message: error });
         }

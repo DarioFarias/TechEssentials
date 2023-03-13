@@ -5,7 +5,6 @@ import LogoutPage from "../pages/LogoutPage";
 import { useLogOutMutation } from "../store/services/userService";
 
 const Logout = () => {
-    const {setLogout} = useContext(userContext)
 
   const navigate = useNavigate();
   const [logout] = useLogOutMutation()
@@ -13,7 +12,6 @@ const Logout = () => {
   useEffect(() => {
     logout();
     setTimeout(() => {
-        setLogout()
         navigate("/")
     }, 3000);
     return clearTimeout();
