@@ -6,7 +6,6 @@ import { useLogInMutation } from "../store/services/userService";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { setLogin } = useContext(userContext);
     const {
         register,
         handleSubmit,
@@ -20,7 +19,6 @@ const Login = () => {
 
     useEffect(() => {
         if (data) {
-            setLogin();
             navigate("/");
         }
     }, [submit]);

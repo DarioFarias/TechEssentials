@@ -13,7 +13,7 @@ const Home = () => {
                 {isLoading && !isError ? (
                     <section>Loading...</section>
                 ) : (
-                    products.map((product, key) => {
+                    products && products.map((product, key) => {
                         return <ProductCard key={product.id} product={product} />;
                     })
                 )}

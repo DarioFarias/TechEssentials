@@ -8,10 +8,10 @@ import UserContext from "./context/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <UserContext>
-            <Provider store={store}>
+        <Provider store={store}>
+            <UserContext>
                 <RouterProvider router={router} />
-            </Provider>
-        </UserContext>
+            </UserContext>
+        </Provider>
     </React.StrictMode>
 );
