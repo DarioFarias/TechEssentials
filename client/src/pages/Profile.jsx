@@ -1,379 +1,369 @@
-import { useForm } from 'react-hook-form';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
-
+import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 const Profile = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+    const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
 
-  return (
-    // En teria aquí desplegamos nadamas datos de la BD (consulta) entonces no sé si dejar el formulario o solo poner labels
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
-    <div id="contenedor">
-      <div
-        id="contenedorDesk"
-        className="flex flex-row items-center justify-evenly min-h-screen flex-grow bg-indigo-600 hidden md:flex top-0"
-      >
+    return (
         <div
-          id="contDatosDesk"
-          className="flex-1 flex flex-col items-center min-h-screen justify-start"
+            id="contenedorDesk"
+            className=" flex flex-wrap relative items-center justify-evenly p-8 gap-4"
         >
-          <label
-            id="datosUser"
-            className="font-bold my-4 text-white font-sans text-2xl "
-          >
-            DATOS DEL USUARIO
-          </label>
-
-          <form
-            className="flex flex-col w-full h-full justify-center items-center gap-4 md:gap-10"
-            action=""
-          >
-            <input
-              type="text"
-              {...register('name')}
-              placeholder="Nombre completo"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('email', {
-                required: true,
-                minLength: 4,
-                maxLength: 20,
-                pattern:
-                  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-              })}
-              placeholder="Correo electronico"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-            {errors?.email?.type === 'pattern' && <p>Pone un email con onda</p>}
-            {errors?.email?.type === 'required' && (
-              <p>El campo email no puede estar vacio</p>
-            )}
-            {errors?.email?.type === 'maxLength' && <p>email invalido</p>}
-            {errors?.email?.type === 'minLength' && <p>email invalido</p>}
-            <input
-              type="password"
-              {...register('password')}
-              placeholder="Contraseña"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12 "
-            />
-            <input
-              type="password"
-              {...register('confirmPassword')}
-              placeholder="Confirmar contraseña"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('tel')}
-              placeholder="Telefono"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-            <input
-              type="date"
-              {...register('birthday')}
-              placeholder="Fecha de nacimiento"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-            <select
-              {...register('gender')}
-              placeholder="Genero"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            >
-              <option value="male">Masculino</option>
-              <option value="female">Femenino</option>
-              <option value="other">Otro</option>
-            </select>
-
-            {/* El siguiente boton falta darle implementacion verdad? */}
-
             <div
-              id="contenedorBotones"
-              className="flex flex-col flex-wrap justify-center items-center "
+                id="contDatosDesk"
+                className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12"
             >
-              <Link
-                id="actualizar"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Actualizar
-              </Link>
-              <Link
-                id="desuscribirse"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Desuscribirse
-              </Link>
+                <label
+                    id="datosUser"
+                    className="font-bold text-white font-sans text-2xl text-center "
+                >
+                    DATOS DEL USUARIO
+                </label>
+
+                <form
+                    className="flex flex-col justify-center items-center gap-4 w-full"
+                    action=""
+                >
+                    <input
+                        name="name"
+                        type="text"
+                        maxLength="50"
+                        {...register("name", {
+                            required: true,
+                            minLength: 3,
+                            maxLength: 50,
+                            pattern:
+                                /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
+                        })}
+                        placeholder="Nombres"
+                        className={`rounded-2xl h-12 w-11/12 text-center ${
+                            errors?.tel ? "bg-yellow-100" : ""
+                        }`}
+                    />
+                    {errors?.name?.type === "pattern" && (
+                        <p className="text-red-700">Ingrese un nombre valido</p>
+                    )}
+                    {errors?.name?.type === "required" && (
+                        <p className="text-red-700">
+                            El campo no puede estar vacio
+                        </p>
+                    )}
+                    {errors?.name?.type === "maxLength" && (
+                        <p className="text-red-700">Nombre demasiado largo</p>
+                    )}
+                    {errors?.name?.type === "minLength" && (
+                        <p className="text-red-700">Nombre demasiado corto</p>
+                    )}
+                    <input
+                        name="lastName"
+                        type="text"
+                        maxLength="50"
+                        {...register("lastName", {
+                            required: true,
+                            minLength: 4,
+                            maxLength: 50,
+                            pattern:
+                                /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
+                        })}
+                        placeholder="Apellidos"
+                        className={`rounded-2xl h-12 w-11/12 text-center ${
+                            errors?.tel ? "bg-yellow-100" : ""
+                        }`}
+                    />
+                    {errors?.lastName?.type === "pattern" && (
+                        <p className="text-red-700">Ingrese un nombre valido</p>
+                    )}
+                    {errors?.lastName?.type === "required" && (
+                        <p className="text-red-700">
+                            El campo no puede estar vacio
+                        </p>
+                    )}
+                    {errors?.lastName?.type === "maxLength" && (
+                        <p className="text-red-700">Apellido demasiado largo</p>
+                    )}
+                    {errors?.lastName?.type === "minLength" && (
+                        <p className="text-red-700">Apellido demasiado corto</p>
+                    )}
+                    <input
+                        name="email"
+                        type="text"
+                        maxLength="40"
+                        {...register("email", {
+                            required: true,
+                            minLength: 8,
+                            maxLength: 40,
+                            pattern:
+                                /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+                        })}
+                        placeholder="Correo electronico"
+                        className={`rounded-2xl h-12 w-11/12 text-center ${
+                            errors?.tel ? "bg-yellow-100" : ""
+                        }`}
+                    />
+                    {errors?.email?.type === "pattern" && (
+                        <p className="text-red-700">Ingrese un email valido</p>
+                    )}
+                    {errors?.email?.type === "required" && (
+                        <p className="text-red-700">
+                            El campo no puede estar vacio
+                        </p>
+                    )}
+                    {errors?.email?.type === "maxLength" && (
+                        <p className="text-red-700">Email demasiado largo</p>
+                    )}
+                    {errors?.email?.type === "minLength" && (
+                        <p className="text-red-700">Email demasiado corto</p>
+                    )}
+                    <input
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        maxLength="16"
+                        {...register("password", {
+                            required: true,
+                            minLength: 8,
+                            maxLength: 16,
+                            pattern:
+                                /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/i,
+                        })}
+                        placeholder="Contraseña"
+                        className={`rounded-2xl h-12 w-11/12 text-center ${
+                            errors?.tel ? "bg-yellow-100" : ""
+                        }`}
+                    />
+                    {errors?.password?.type === "pattern" && (
+                        <p className="text-red-700">Contraseña invalida</p>
+                    )}
+                    {errors?.password?.type === "minLength" && (
+                        <p className="text-red-700">Contraseña invalida</p>
+                    )}
+                    {errors?.password?.type === "maxLength" && (
+                        <p className="text-red-700">Contraseña invalida</p>
+                    )}
+                    <label>
+                        <input
+                            type="checkbox"
+                            onChange={togglePasswordVisibility}
+                        />
+                        Mostrar contraseña
+                    </label>
+                    <input
+                        name="tel"
+                        type="number"
+                        step="1"
+                        maxLength="10"
+                        {...register("tel", {
+                            minLength: 10,
+                            maxLength: 10,
+                        })}
+                        placeholder="Telefono"
+                        className={`rounded-2xl h-12 w-11/12 text-center ${
+                            errors?.tel ? "bg-yellow-100" : ""
+                        }`}
+                    />
+                    {errors?.tel?.type === "minLength" && (
+                        <p className="text-red-700">
+                            El telefono debe contener 10 digitos
+                        </p>
+                    )}
+                    {errors?.tel?.type === "maxLength" && (
+                        <p className="text-red-700">
+                            El telefono debe contener 10 digitos
+                        </p>
+                    )}
+                    <select
+                        {...register("gender", {
+                            required: true,
+                        })}
+                        placeholder="Genero"
+                        className="rounded-2xl h-12 text-center w-11/12"
+                    >
+                        <option value="male">Masculino</option>
+                        <option value="female">Femenino</option>
+                        <option value="other">Otro</option>
+                    </select>
+
+                    <div
+                        id="contenedorBotones"
+                        className="flex flex-col justify-center items-center "
+                    >
+                        <Link
+                            id="actualizar"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Actualizar
+                        </Link>
+                        <Link
+                            id="desuscribirse"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Desuscribirse
+                        </Link>
+                    </div>
+                </form>
             </div>
-          </form>
-        </div>
-        <div
-          id="contTarjetaDesk"
-          className="flex-1 flex flex-col items-center min-h-screen justify-start"
-        >
-          <label
-            id="datosTarjeta"
-            className="font-bold my-4 text-white font-sans text-2xl "
-          >
-            TARJETA
-          </label>
-          <form
-            className="flex flex-col w-full h-full justify-center items-center gap-4 md:gap-10"
-            action=""
-          >
-            <select
-              {...register('tarjeta')}
-              placeholder="Opciones de Tarjeta"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            >
-              <option value="placeholder">Opciones de Tarjeta</option>
-              <option value="t1">NUMTARJETA 1</option>
-              <option value="t2">NUMTARJETA 2</option>
-              <option value="other">Otro</option>
-            </select>
-
-            <input
-              type="text"
-              {...register('name')}
-              placeholder="Nombre en la Tarjeta"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-
-            <input
-              type="text"
-              {...register('tarjeta', {
-                required: true,
-                minLength: 13,
-                maxLength: 19,
-                pattern:
-                  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-              })}
-              placeholder="Número de la Tarjeta"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-            {errors?.email?.type === 'pattern' && <p>Pone un email con onda</p>}
-            {errors?.email?.type === 'required' && (
-              <p>El campo email no puede estar vacio</p>
-            )}
-            {errors?.email?.type === 'maxLength' && <p>email invalido</p>}
-            {errors?.email?.type === 'minLength' && <p>email invalido</p>}
-
-            <input
-              type="date"
-              {...register('vencimiento')}
-              placeholder="Fecha de vencimiento"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
-
-            <input
-              type="text"
-              {...register('codigo')}
-              placeholder="Codigo de Seguridad"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            />
             <div
-              id="contenedorBotones2"
-              className="flex flex-col flex-wrap justify-star items-center "
+                id="contTarjetaDesk"
+                className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12"
             >
-              <Link
-                id="actualizar2"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Actualizar
-              </Link>
-              <Link
-                id="borrar"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Borrar
-              </Link>
+                <label
+                    id="datosTarjeta"
+                    className="font-bold text-white font-sans text-2xl text-center "
+                >
+                    TARJETA
+                </label>
+                <form
+                    className="flex flex-col justify-center items-center gap-4 w-full"
+                    action=""
+                >
+                    <select
+                        {...register("tarjeta")}
+                        placeholder="Opciones de Tarjeta"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    >
+                        <option>Opciones de Tarjeta</option>
+                        <option value="t1">NUMTARJETA 1</option>
+                        <option value="t2">NUMTARJETA 2</option>
+                        <option value="other">Nueva</option>
+                    </select>
+
+                    <input
+                        type="text"
+                        {...register("name")}
+                        placeholder="Nombre en la Tarjeta"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Número de la Tarjeta"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                        {...register("cardNumber", {
+                            required: true,
+                            minLength: 16,
+                            maxLength: 16,
+                            pattern:
+                                /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+                        })}
+                    />
+
+                    <input
+                        type="date"
+                        {...register("vencimiento")}
+                        placeholder="Fecha de vencimiento"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+
+                    <input
+                        type="text"
+                        {...register("codigo")}
+                        placeholder="Codigo de Seguridad"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+                    <div
+                        id="contenedorBotones2"
+                        className="flex flex-col justify-star items-center "
+                    >
+                        <Link
+                            id="actualizar2"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Actualizar
+                        </Link>
+                        <Link
+                            id="borrar"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Borrar
+                        </Link>
+                    </div>
+                </form>
             </div>
-          </form>
-        </div>
-        <div
-          id="contDirDesk"
-          className="flex-1 flex flex-col items-center min-h-screen top-0"
-        >
-          <label
-            id="datosDir"
-            className="font-bold my-4 text-white font-sans text-2xl "
-          >
-            DIRECCION
-          </label>
-          <form
-            className="flex flex-col w-full h-full justify-center items-center gap-4 md:gap-10"
-            action=""
-          >
-            <select
-              {...register('direccion')}
-              placeholder="Seleccione Direccion"
-              className="rounded-2xl h-12 w-60 text-center  md:w-9/12"
-            >
-              <option value="placeholder">Seleccione Direccion</option>
-              <option value="d1">NUMTARJETA 1</option>
-              <option value="d2">NUMTARJETA 2</option>
-              <option value="other">Otro</option>
-            </select>
-
-            <input
-              type="text"
-              {...register('name')}
-              placeholder="Nombre completo del usuario"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('dir')}
-              placeholder="Direccion"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('ciudad')}
-              placeholder="Ciudad"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('pais')}
-              placeholder="País"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-            <input
-              type="text"
-              {...register('CP')}
-              placeholder="Codigo Postal"
-              className="rounded-2xl h-12 w-60 text-center md:w-9/12"
-            />
-
             <div
-              id="contenedorBotones3"
-              className="flex flex-col flex-wrap justify-center items-center "
+                id="contDirDesk"
+                className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12"
             >
-              <Link
-                id="actualizar2"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Actualizar
-              </Link>
-              <Link
-                id="borrar"
-                to="/register"
-                className="btnGrisPerfil text-xl"
-              >
-                Borrar
-              </Link>
+                <label
+                    id="datosDir"
+                    className="font-bold text-white font-sans text-2xl text-center "
+                >
+                    DIRECCION
+                </label>
+                <form
+                    className="flex flex-col justify-center items-center gap-4 w-full"
+                    action=""
+                >
+                    <select
+                        {...register("direccion")}
+                        placeholder="Seleccione Direccion"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    >
+                        <option value="">Seleccione Direccion</option>
+                        <option value="d1">NUMTARJETA 1</option>
+                        <option value="d2">NUMTARJETA 2</option>
+                        <option value="other">Otro</option>
+                    </select>
+                    <input
+                        type="text"
+                        {...register("dir")}
+                        placeholder="Direccion"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+                    <input
+                        type="text"
+                        {...register("ciudad")}
+                        placeholder="Ciudad"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+                    <input
+                        type="text"
+                        {...register("pais")}
+                        placeholder="País"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+                    <input
+                        type="text"
+                        {...register("CP")}
+                        placeholder="Codigo Postal"
+                        className="rounded-2xl h-12 w-11/12 text-center"
+                    />
+
+                    <div
+                        id="contenedorBotones3"
+                        className="flex flex-col justify-center items-center "
+                    >
+                        <Link
+                            id="actualizar2"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Actualizar
+                        </Link>
+                        <Link
+                            id="borrar"
+                            to=""
+                            className="btnGrisPerfil text-xl"
+                        >
+                            Borrar
+                        </Link>
+                    </div>
+                </form>
             </div>
-          </form>
         </div>
-      </div>
-      {/* AQUI EMPIEZA LA PARTE MOVIL */}
-      <div className="flex flex-col items-center justify-evenly min-h-screen flex-grow bg-indigo-600 md:hidden">
-        <label
-          id="Mensaje"
-          className="object-center text-center font-bold my-4 text-white font-sans text-2xl "
-        >
-          DATOS DEL USUARIO
-        </label>
-        <form
-          className="flex flex-col w-full h-full justify-center items-center gap-4 md:gap-10"
-          action=""
-        >
-          <input
-            type="text"
-            {...register('name')}
-            placeholder="Nombre completo"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          />
-          <input
-            type="text"
-            {...register('email', {
-              required: true,
-              minLength: 4,
-              maxLength: 20,
-              pattern:
-                /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-            })}
-            placeholder="Correo electronico"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          />
-          {errors?.email?.type === 'pattern' && <p>Pone un email con onda</p>}
-          {errors?.email?.type === 'required' && (
-            <p>El campo email no puede estar vacio</p>
-          )}
-          {errors?.email?.type === 'maxLength' && <p>email invalido</p>}
-          {errors?.email?.type === 'minLength' && <p>email invalido</p>}
-          <input
-            type="password"
-            {...register('password')}
-            placeholder="Contraseña"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8 "
-          />
-          <input
-            type="password"
-            {...register('confirmPassword')}
-            placeholder="Confirmar contraseña"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          />
-          <input
-            type="text"
-            {...register('tel')}
-            placeholder="Telefono"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          />
-          <input
-            type="date"
-            {...register('birthday')}
-            placeholder="Fecha de nacimiento"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          />
-          <select
-            {...register('gender')}
-            placeholder="Genero"
-            className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-          >
-            <option value="male">Masculino</option>
-            <option value="female">Femenino</option>
-            <option value="other">Otro</option>
-          </select>
-
-          {/* El siguiente boton falta darle implementacion verdad? */}
-
-          <div
-            id="contenedorBotones"
-            className="flex flex-col flex-wrap justify-center items-center "
-          >
-            <Link
-              id="actualizar"
-              to="/register"
-              className="btnGrisPerfil text-xl"
-            >
-              Actualizar
-            </Link>
-            <Link
-              id="desuscribirse"
-              to="/register"
-              className="btnGrisPerfil text-xl"
-            >
-              Desuscribirse
-            </Link>
-          </div>
-        </form>
-      </div>
-      {/* Este es el div que cierra el modo desktop */}
-    </div>
-  );
+    );
 };
 
 export default Profile;

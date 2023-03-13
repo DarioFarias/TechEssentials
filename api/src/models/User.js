@@ -12,7 +12,7 @@ class User extends Model {
 User.init(
   {
     name: {
-      type: DataTypes.STRING(70),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     lastName: {

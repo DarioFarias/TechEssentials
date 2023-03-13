@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { userContext } from "../context/UserContext.jsx"
+import { userContext } from "../context/UserContext.jsx";
 import { useLogInMutation } from "../store/services/userService";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { user, setLogin} = useContext(userContext);
+    const { setLogin } = useContext(userContext);
     const {
         register,
         handleSubmit,
@@ -20,7 +20,7 @@ const Login = () => {
 
     useEffect(() => {
         if (data) {
-            setLogin()
+            setLogin();
             navigate("/");
         }
     }, [submit]);

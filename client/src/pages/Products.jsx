@@ -41,20 +41,20 @@ const Products = () => {
                 setMinPrice(0);
                 setMaxPrice(2000);
                 break;
-            case "$2001-$4000":
+            case "$2001-$6000":
                 setMinPrice(2001);
-                setMaxPrice(4000);
-                break;
-            case "$4001-$6000":
-                setMinPrice(4001);
                 setMaxPrice(6000);
                 break;
-            case "$6001-$8000":
+            case "$6001-$10000":
                 setMinPrice(6001);
-                setMaxPrice(8000);
+                setMaxPrice(10000);
                 break;
-            case "$8000+":
-                setMinPrice(8001);
+            case "$10001-$14000":
+                setMinPrice(10001);
+                setMaxPrice(14000);
+                break;
+            case "$14000+":
+                setMinPrice(14001);
                 setMaxPrice(1000000);
                 break;
             default:
@@ -98,10 +98,10 @@ const Products = () => {
                     >
                         <option>Sin rango de precio</option>
                         <option>-$2001</option>
-                        <option>$2001-$4000</option>
-                        <option>$4001-$6000</option>
-                        <option>$6001-$8000</option>
-                        <option>$8000+</option>
+                        <option>$2001-$6000</option>
+                        <option>$6001-$10000</option>
+                        <option>$10001-$14000</option>
+                        <option>$14000+</option>
                     </select>
                 </div>
             </div>
