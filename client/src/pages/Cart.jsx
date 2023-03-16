@@ -16,7 +16,7 @@ const Cart = () => {
         {isLoading && !isError ? (
           <section>Loading...</section>
         ) : (
-          pccart.map((product, key) => {
+          pccart && pccart.map((product, key) => {
             return <PCCart key={product.id} pccart={product} />;
           })
         )}
@@ -25,12 +25,12 @@ const Cart = () => {
         id="sticky"
         className="flex flex-col  sticky bottom-0 z-10 bg-gray-500 text-white"
       >
-        {pccart.price ? (
+        {pccart?.price ? (
           <div id="precio">${pccart.price}</div>
         ) : (
           <div>No hay precio disponible</div>
         )}
-        {pccart.priceT ? (
+        {pccart?.priceT ? (
           <div id="precioT">${pccart.priceT}</div>
         ) : (
           <div>No hay precioT disponible</div>

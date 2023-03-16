@@ -61,5 +61,7 @@ export const {
     useDeleteUserMutation,
     useLogInMutation,
     useMeQuery,
-    useLogOutMutation
+    useLogOutMutation,
+    useLazyMeQuery,
+    useLazyGetUserByIdQuery
 } = users;

@@ -51,7 +51,7 @@ const PCCart = ({ pccart }) => {
             </button>
           </div>
           <div id="precio">${pccart.price}</div>
-          <div id="ST">${pccart.price * 2}</div>
+          <div id="ST">${pccart.price * 3}</div>
         </div>
 
         <div

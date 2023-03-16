@@ -204,23 +204,6 @@ const Register = () => {
                         El telefono debe contener 10 digitos
                     </p>
                 )}
-                {/* <input
-                    type="date"
-                    {...register("birthday")}
-                    placeholder="Fecha de nacimiento"
-                    className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-                /> */}
-                <select
-                    {...register("gender", {
-                        required: true,
-                    })}
-                    placeholder="Genero"
-                    className="rounded-2xl h-12 w-60 text-center  md:w-1/2 md:px-8"
-                >
-                    <option value="male">Masculino</option>
-                    <option value="female">Femenino</option>
-                    <option value="other">Otro</option>
-                </select>
 
                 {isLoading ? (
                     <p className="font-bold">Cargando...</p>

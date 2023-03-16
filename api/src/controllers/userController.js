@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { generateToken, verify } from "../config/token.js";
+import bcrypt from "bcrypt";
 
 class UserController {
     static async getAllUsers(req, res) {
@@ -39,7 +40,7 @@ class UserController {
         try {
             const results = await User.findOne({
                 where: {
-                    status:"on",
+                    status: "on",
                     id: req.params.id,
                 },
                 attributes: ["Id", "name", "lastName", "email", "tel", "role"],
@@ -59,13 +60,12 @@ class UserController {
         try {
             const results = await User.findOne({
                 where: {
-                    status:"on",
+                    status: "on",
                     id: req.params.id,
                 },
                 attributes: ["status"],
             });
-            if (!results)
-                throw "No se encontro el usuario";
+            if (!results) throw "No se encontro el usuario";
             try {
                 req.body.status = "off";
                 const result = await User.update(req.body, {
@@ -87,6 +87,13 @@ class UserController {
 
     static async updateUserById(req, res) {
         try {
+            if (req.body.hasOwnProperty("password")) {
+                const salt = await bcrypt.genSalt(10);
+                req.body.salt = salt;
+
+                const hash = await bcrypt.hash(req.body.password, req.body.salt);
+                req.body.password = hash;
+            }
             const result = await User.update(req.body, {
                 where: {
                     id: req.params.id,
@@ -111,7 +118,7 @@ class UserController {
             const { email, password } = req.body;
             const results = await User.findOne({
                 where: {
-                    status:"on",
+                    status: "on",
                     email,
                 },
             });

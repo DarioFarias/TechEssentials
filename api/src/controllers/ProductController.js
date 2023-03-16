@@ -14,7 +14,7 @@ class ProductController {
             ],
         })
             .then((results) => {
-                if (results.length === 0) throw "No hay productos para mostrar";
+                if (results.length === 0) res.status(204).send({ success: false, message: "No hay productos para mostrar" });
                 res.status(200).send(results);
             })
             .catch((error) => {

@@ -2,6 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import dataBase from "../config/dataBase.js";
 import Order from "./Order.js";
 import Product from "./Product.js";
+import Cart from "./Cart.js"
 
 class OrderProduct extends Model {}
 
@@ -52,6 +53,11 @@ OrderProduct.afterBulkCreate(async (orderProducts) => {
             where: { id: orderProduct.idProduct },
         });
     }
+    const RowsDeleted = await Cart.destroy({
+        where: {
+            id: orderProducts[0].idUser,
+        },
+    });
 });
 
 export default OrderProduct;

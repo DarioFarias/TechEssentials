@@ -9,7 +9,7 @@ const authMe = (req, res, next) => {
         req.user = payload
         next()
     } catch (error) {
-        res.status(404).send({ success: false, message: error })
+        res.status(205).send({ success: false, message: error })
     }
 }
 

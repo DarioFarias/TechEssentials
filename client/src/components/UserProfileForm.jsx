@@ -2,103 +2,102 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import {
-    useGetUserByIdQuery,
     useUpdateUserByIdMutation,
+    useDeleteUserMutation,
 } from "../store/services/userService";
 import { userContext } from "../context/UserContext.jsx";
 import { useContext } from "react";
+import userValidationRules from "../utils/formValidationRules/userValidationRules";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileForm = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showUpdate, setShowUpdate] = useState(false);
-    const [showCancel, setShowCancel] = useState(false);
-    const [showEdit, setShowEdit] = useState(true);
-    const [showUnsuscribe, setShowUnsuscribe] = useState(true);
-    const [name, setName] = useState();
-    const [lastName, setLastName] = useState();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [tel, setTel] = useState();
-    const [gender, setGender] = useState();
+    const navigate = useNavigate();
 
-    const { getUser } = useContext(userContext);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const { getUser, toggleUpdateUser } = useContext(userContext);
 
     const user = getUser();
 
-    const { data, isError, isLoading } = useGetUserByIdQuery(user?.id, {
-        skip: !user,
-    });
-    const [
-        updateUser,
-        {
-            data: updateData,
-            isError: updateIsError,
-            isLoading: updateIsLoading,
-        },
-    ] = useUpdateUserByIdMutation(user?.id);
-
-    const submit = (formData) => {
-        updateUser(formData)
-        setShowEdit(true);
-        setShowUnsuscribe(true);
-        setShowUpdate(false);
-        setShowCancel(false);
-    };
+    const userEdited = {};
 
     const {
         register,
         handleSubmit,
-        watch,
+        reset,
         formState: { errors },
-    } = useForm({ mode: "onBlur" });
+    } = useForm({
+        defaultValues: {
+            name: user?.name,
+            lastName: user?.lastName,
+            email: user?.email,
+            password: "",
+            tel: user?.tel,
+            gender: user?.gender,
+        },
+        mode: "onBlur",
+    });
+
+    const [updateUser, { isError: updateIsError, isLoading: updateIsLoading }] =
+        useUpdateUserByIdMutation();
+
+    const [deleteUser, { isError: deleteIsError, isLoading: deleteIsLoading }] =
+        useDeleteUserMutation();
+
+    const submit = async (formData) => {
+        if (formData.password === "") {
+            delete formData.password;
+        }
+        const updateData = await updateUser({ id: user.Id, ...formData });
+        updateData.data.success === true
+            ? alert("Usuario actualizado con éxito")
+            : alert("El usuario no se pudo actualizar");
+        setIsEditing(false);
+        toggleUpdateUser();
+    };
+
+    const onCancel = () => {
+        setIsEditing(false);
+        reset();
+    };
+
+    const onUnsuscribe = async () => {
+        const deleted = await deleteUser(user.Id);
+        if (deleted.data.success === true) {
+            alert("Usuario eliminado con éxito");
+            navigate("/logout");
+        } else {
+            alert("El usuario no se pudo eliminar");
+        }
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleEdit = () => {
-        setShowEdit(false);
-        setShowUnsuscribe(false);
-        setShowUpdate(true);
-        setShowCancel(true);
-    };
-
-    const handleCancel = () => {
-        setShowEdit(true);
-        setShowUnsuscribe(true);
-        setShowUpdate(false);
-        setShowCancel(false);
-    };
-
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-    };
-    const handleLastNameChange = (event) => {
-        setLastName(event.target.value);
-    };
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-    const handleTelChange = (event) => {
-        setTel(event.target.value);
-    };
-    const handleGenderChange = (event) => {
-        setGender(event.target.value);
-    };
-
-    useEffect(() => {
-        if (!showUpdate) {
-            setName(data?.results?.name);
-            setLastName(data?.results?.lastName);
-            setEmail(data?.results?.email);
-            setPassword("");
-            setTel(data?.results?.tel);
-            setGender(data?.results?.gender);
-        }
-    }, [handleEdit, handleCancel]);
+    const nameErrorMessage = userValidationRules.getErrorMessages(
+        errors,
+        "name"
+    );
+    const lastNameErrorMessage = userValidationRules.getErrorMessages(
+        errors,
+        "lastName"
+    );
+    const emailErrorMessage = userValidationRules.getErrorMessages(
+        errors,
+        "email"
+    );
+    const passwordErrorMessage = userValidationRules.getErrorMessages(
+        errors,
+        "password"
+    );
+    const telErrorMessage = userValidationRules.getErrorMessages(errors, "tel");
+    const genderErrorMessage = userValidationRules.getErrorMessages(
+        errors,
+        "gender"
+    );
 
     return (
         <div
@@ -121,124 +120,63 @@ const UserProfileForm = () => {
                     name="name"
                     type="text"
                     maxLength="50"
-                    {...register("name", {
-                        required: true,
-                        minLength: 3,
-                        maxLength: 50,
-                        pattern:
-                            /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
-                    })}
-                    placeholder="Nombres"
-                    value={name}
-                    onChange={handleNameChange}
+                    {...register("name", userValidationRules.name)}
+                    disabled={!isEditing}
                     className={`rounded-2xl h-12 w-11/12 text-center ${
                         errors?.name ? "bg-yellow-100" : ""
-                    }`}
+                    } ${isEditing ? "" : "bg-gray-200"}`}
                 />
-                {errors?.name?.type === "pattern" && (
-                    <p className="text-red-700">Ingrese un nombre valido</p>
+
+                {nameErrorMessage && (
+                    <p className="text-red-700">{nameErrorMessage}</p>
                 )}
-                {errors?.name?.type === "required" && (
-                    <p className="text-red-700">
-                        El campo no puede estar vacio
-                    </p>
-                )}
-                {errors?.name?.type === "maxLength" && (
-                    <p className="text-red-700">Nombre demasiado largo</p>
-                )}
-                {errors?.name?.type === "minLength" && (
-                    <p className="text-red-700">Nombre demasiado corto</p>
-                )}
+
                 <input
                     name="lastName"
                     type="text"
                     maxLength="50"
-                    {...register("lastName", {
-                        required: true,
-                        minLength: 4,
-                        maxLength: 50,
-                        pattern:
-                            /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
-                    })}
-                    placeholder="Apellidos"
-                    value={lastName}
-                    onChange={handleLastNameChange}
+                    {...register("lastName", userValidationRules.lastName)}
+                    disabled={!isEditing}
                     className={`rounded-2xl h-12 w-11/12 text-center ${
                         errors?.lastName ? "bg-yellow-100" : ""
-                    }`}
+                    } ${isEditing ? "" : "bg-gray-200"}`}
                 />
-                {errors?.lastName?.type === "pattern" && (
-                    <p className="text-red-700">Ingrese un nombre valido</p>
+
+                {lastNameErrorMessage && (
+                    <p className="text-red-700">{lastNameErrorMessage}</p>
                 )}
-                {errors?.lastName?.type === "required" && (
-                    <p className="text-red-700">
-                        El campo no puede estar vacio
-                    </p>
-                )}
-                {errors?.lastName?.type === "maxLength" && (
-                    <p className="text-red-700">Apellido demasiado largo</p>
-                )}
-                {errors?.lastName?.type === "minLength" && (
-                    <p className="text-red-700">Apellido demasiado corto</p>
-                )}
+
                 <input
                     name="email"
                     type="text"
                     maxLength="40"
-                    {...register("email", {
-                        required: true,
-                        minLength: 8,
-                        maxLength: 40,
-                        pattern:
-                            /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-                    })}
-                    placeholder="Correo electronico"
-                    value={email}
-                    onChange={handleEmailChange}
+                    {...register("email", userValidationRules.email)}
+                    disabled={!isEditing}
                     className={`rounded-2xl h-12 w-11/12 text-center ${
                         errors?.email ? "bg-yellow-100" : ""
-                    }`}
+                    } ${isEditing ? "" : "bg-gray-200"}`}
                 />
-                {errors?.email?.type === "pattern" && (
-                    <p className="text-red-700">Ingrese un email valido</p>
+
+                {emailErrorMessage && (
+                    <p className="text-red-700">{emailErrorMessage}</p>
                 )}
-                {errors?.email?.type === "required" && (
-                    <p className="text-red-700">
-                        El campo no puede estar vacio
-                    </p>
-                )}
-                {errors?.email?.type === "maxLength" && (
-                    <p className="text-red-700">Email demasiado largo</p>
-                )}
-                {errors?.email?.type === "minLength" && (
-                    <p className="text-red-700">Email demasiado corto</p>
-                )}
+
                 <input
                     name="password"
                     type={showPassword ? "text" : "password"}
                     maxLength="16"
-                    {...register("password", {
-                        required: true,
-                        minLength: 8,
-                        maxLength: 16,
-                        pattern: /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/i,
-                    })}
-                    value={password}
-                    onChange={handlePasswordChange}
+                    {...register("password", userValidationRules.password)}
                     placeholder="Contraseña"
+                    disabled={!isEditing}
                     className={`rounded-2xl h-12 w-11/12 text-center ${
                         errors?.password ? "bg-yellow-100" : ""
-                    }`}
+                    } ${isEditing ? "" : "bg-gray-200"}`}
                 />
-                {errors?.password?.type === "pattern" && (
-                    <p className="text-red-700">Contraseña invalida</p>
+
+                {passwordErrorMessage && (
+                    <p className="text-red-700">{passwordErrorMessage}</p>
                 )}
-                {errors?.password?.type === "minLength" && (
-                    <p className="text-red-700">Contraseña invalida</p>
-                )}
-                {errors?.password?.type === "maxLength" && (
-                    <p className="text-red-700">Contraseña invalida</p>
-                )}
+
                 <label>
                     <input
                         type="checkbox"
@@ -251,74 +189,56 @@ const UserProfileForm = () => {
                     type="number"
                     step="1"
                     maxLength="10"
-                    {...register("tel", {
-                        minLength: 10,
-                        maxLength: 10,
-                    })}
+                    {...register("tel", userValidationRules.tel)}
                     placeholder="Telefono"
-                    value={tel}
-                    onChange={handleTelChange}
+                    disabled={!isEditing}
                     className={`rounded-2xl h-12 w-11/12 text-center ${
                         errors?.tel ? "bg-yellow-100" : ""
-                    }`}
+                    } ${isEditing ? "" : "bg-gray-200"}`}
                 />
-                {errors?.tel?.type === "minLength" && (
-                    <p className="text-red-700">
-                        El telefono debe contener 10 digitos
-                    </p>
+
+                {telErrorMessage && (
+                    <p className="text-red-700">{telErrorMessage}</p>
                 )}
-                {errors?.tel?.type === "maxLength" && (
-                    <p className="text-red-700">
-                        El telefono debe contener 10 digitos
-                    </p>
-                )}
-                <select
-                    {...register("gender", {
-                        required: true,
-                    })}
-                    placeholder="Genero"
-                    value={gender}
-                    onChange={handleGenderChange}
-                    className="rounded-2xl h-12 text-center w-11/12"
-                >
-                    <option>Masculino</option>
-                    <option>Femenino</option>
-                    <option>Otro</option>
-                </select>
 
                 <div
                     id="contenedorBotones"
                     className="flex flex-col justify-center items-center "
                 >
-                    {showUpdate ? (
-                        <button type="submit" className="btnGrisPerfil text-xl">
-                            Actualizar
-                        </button>
+                    {isEditing ? (
+                        <>
+                            <button
+                                type="submit"
+                                className="btnGrisPerfil text-xl"
+                            >
+                                Actualizar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => onCancel()}
+                                className="btnGrisPerfil text-xl"
+                            >
+                                Cancelar
+                            </button>
+                        </>
                     ) : null}
-                    {showEdit ? (
-                        <button
-                            onClick={handleEdit}
-                            className="btnGrisPerfil text-xl"
-                        >
-                            Editar
-                        </button>
-                    ) : null}
-                    {showUnsuscribe ? (
-                        <Link
-                            id="desuscribirse"
-                            to=""
-                            className="btnGrisPerfil text-xl"
-                        >
-                            Desuscribirse
-                        </Link>
-                    ) : null}
-                    {showCancel ? (
-                        <button
-                            onClick={handleCancel}
-                            className="btnGrisPerfil text-xl"
-                        >
-                            Cancelar
-                        </button>
+                    {!isEditing ? (
+                        <>
+                            <button
+                                type="button"
+                                onClick={() => setIsEditing(true)}
+                                className="btnGrisPerfil text-xl"
+                            >
+                                Editar
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() =>onUnsuscribe()}
+                                className="btnGrisPerfil text-xl"
+                            >
+                                Desuscribirse
+                            </button>
+                        </>
                     ) : null}
                 </div>
             </form>
