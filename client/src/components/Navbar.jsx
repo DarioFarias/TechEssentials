@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { userContext } from "../context/UserContext";
 
 const Navbar = () => {
-    const {getUser} = useContext(userContext)
-    const user = getUser()
-    
+    const { getUser } = useContext(userContext);
+    const user = getUser();
+
     const openMenu = () => {
         const bMenu = document.getElementById("menu");
 
@@ -44,17 +44,26 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 <Link
-                                    to="/cart"
+                                    to="/user/cart"
                                     className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
                                 >
                                     Carrito
                                 </Link>
+
                                 <Link
-                                    to="/profile"
+                                    to="/user/profile"
                                     className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
                                 >
                                     Perfil
                                 </Link>
+                                {user?.role === "admin" && (
+                                    <Link
+                                        to="/admin"
+                                        className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
+                                    >
+                                        Admin
+                                    </Link>
+                                )}
                             </>
                         ) : null}
                         <Link

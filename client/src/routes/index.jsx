@@ -13,6 +13,7 @@ import App from "../App";
 import Admin from "../components/Admin";
 import ControlPanel from "../pages/ControlPanel";
 import Logout from "../components/Logout";
+import User from "../components/User";
 
 const router = createBrowserRouter([
     {
@@ -32,30 +33,36 @@ const router = createBrowserRouter([
                 element: <Product />,
             },
             {
-                path: "/profile",
-                element: <Profile />,
-            },
-            {
                 path: "/contact",
                 element: <Contact />,
             },
             {
-                path: "/payment",
-                element: <Payment />,
-            },
-            {
-                path: "/cart",
-                element: <Cart />,
+                path: "/user",
+                element: <User />,
+                children: [
+                    {
+                        path: "/user/profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "/user/payment",
+                        element: <Payment />,
+                    },
+                    {
+                        path: "/user/cart",
+                        element: <Cart />,
+                    },
+                ],
             },
             {
                 path: "/admin",
                 element: <Admin />,
                 children: [
                     {
-                        index:true,
-                        element: <ControlPanel/>
-                    }
-                ]
+                        index: true,
+                        element: <ControlPanel />,
+                    },
+                ],
             },
         ],
     },

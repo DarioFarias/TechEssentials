@@ -38,15 +38,15 @@ const PCCart = ({ pccart }) => {
         >
           <div
             id="contB"
-            class="flex justify-between bg-gray-200 px-2 py-1 rounded-md items-center gap-1"
+            className="flex justify-between bg-gray-200 px-2 py-1 rounded-md items-center gap-1"
           >
-            <button class=" h-4 w-4 bg-cover bg-center bg-no-repeat bg-white rounded-md">
+            <button className=" h-4 w-4 bg-cover bg-center bg-no-repeat bg-white rounded-md">
               <img src="/menos.svg" alt="menos" />
             </button>
             {/* Aqui hay que sumar y restar */}
-            <span class="text-gray-700 font-bold text-lg">3</span>
+            <span className="text-gray-700 font-bold text-lg">3</span>
 
-            <button class=" h-4 w-4 bg-cover bg-center bg-no-repeat bg-white rounded-md">
+            <button className=" h-4 w-4 bg-cover bg-center bg-no-repeat bg-white rounded-md">
               <img src="/mas.svg" alt="mas" />
             </button>
           </div>
@@ -59,12 +59,12 @@ const PCCart = ({ pccart }) => {
           className="flex flex-col w-1/4 h-full items-center justify-center gap-4"
         >
           <div id="contO">
-            <button class=" h-7 w-7 bg-cover bg-center bg-no-repeat bg-white rounded-md">
+            <button className=" h-7 w-7 bg-cover bg-center bg-no-repeat bg-white rounded-md">
               <img src="/Ojo.svg" alt="ojo" />
             </button>
           </div>
           <div id="contE">
-            <button class=" h-7 w-7 bg-cover bg-center bg-no-repeat bg-white rounded-md">
+            <button className=" h-7 w-7 bg-cover bg-center bg-no-repeat bg-white rounded-md">
               <img src="/Eliminar.svg" alt="eliminar" />
             </button>
           </div>

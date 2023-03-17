@@ -37,7 +37,7 @@ const Cart = () => {
         )}
         <div className="flex flex-col  items-center justify-evenly">
           <Link to="/product">
-            <button class="  text-white text-center text-xs font-bold w-24 py-1 rounded-2xl bg-indigo-700 hover:bg-indigo-500 transition duration-500 cursor-pointer">
+            <button className="  text-white text-center text-xs font-bold w-24 py-1 rounded-2xl bg-indigo-700 hover:bg-indigo-500 transition duration-500 cursor-pointer">
               Seguir Comprando
             </button>
           </Link>
