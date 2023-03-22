@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { userContext } from "../context/UserContext.jsx";
 import { useContext } from "react";
-import { useGetAllCategoriesQuery } from "../store/services/categoryService";
-import { useGetProductsByFiltersMutation } from "../store/services/productService";
+import {
+    useCreateProductMutation,
+    useGetProductsByFiltersMutation,
+} from "../store/services/productService";
 import productValidationRules from "../utils/formValidationRules/productValidationRules.jsx";
+import { controlPanelContext } from "../context/ControlPanelContext";
 
 const EditProducts = () => {
+    const { category, product, setProduct } =
+        useContext(controlPanelContext);
+
     const [isEditing, setIsEditing] = useState(false);
 
     const [isCreating, setIsCreating] = useState(false);
 
-    const [category, setCategory] = useState();
-
-    const [product, setProduct] = useState();
-
-    const { data: categories } = useGetAllCategoriesQuery();
-
     const [getProductsByCategoryId, { data: products }] =
         useGetProductsByFiltersMutation();
+
+    const [createProduct, { data: createData, isError: createIsError, error }] =
+        useCreateProductMutation();
 
     const {
         register,
@@ -26,11 +28,10 @@ const EditProducts = () => {
         reset,
         formState: { errors },
     } = useForm({
-        mode: "onBlur",
+        mode: "onChange",
     });
 
     const resetStateProduct = {
-        productCategory: category?.name,
         productName: product?.name,
         productDescription: product?.description,
         productPrice: product?.price,
@@ -38,23 +39,10 @@ const EditProducts = () => {
     };
 
     const resetStateNoProduct = {
-        productCategory: "",
         productName: "",
         productDescription: "",
         productPrice: "",
         productStock: "",
-    };
-
-    const handleCategorySelect = (event) => {
-        const selectedCategory = categories?.find(
-            (category) => category?.name === event.target.value
-        );
-        if (selectedCategory) {
-            setCategory(selectedCategory);
-        } else {
-            setCategory();
-            setProduct();
-        }
     };
 
     const handleProductSelect = (event) => {
@@ -84,7 +72,24 @@ const EditProducts = () => {
         }
     }, [product]);
 
-    const submit = async () => {};
+    const submit = async (formData) => {
+        if (isCreating) {
+            const productBody = {
+                idCategory: category.Id,
+                name: formData.productName,
+                description: formData.productDescription,
+                price: formData.productPrice,
+                stock: formData.productStock,
+            };
+            await createProduct(productBody);
+            createIsError
+                ? alert("No se pudo crear el producto")
+                : createData
+                ? alert("Producto creado con exito")
+                : null;
+            error ? console.log(error) : null;
+        }
+    };
 
     const onCancel = () => {
         setIsEditing(false);
@@ -100,7 +105,7 @@ const EditProducts = () => {
     return (
         <div className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12">
             <label className="font-bold text-white font-sans text-2xl text-center ">
-                BUSCAR PRODUCTOS
+                BUSCAR PRODUCTO
             </label>
 
             <form
@@ -108,27 +113,13 @@ const EditProducts = () => {
                 action=""
                 onSubmit={handleSubmit(submit)}
             >
-                <select
-                    name="categories"
-                    onChange={handleCategorySelect}
-                    className={`rounded-2xl h-12 w-11/12 text-center ${
-                        isEditing || isCreating ? "bg-gray-300" : ""
-                    }`}
-                    disabled={isEditing || isCreating}
-                >
-                    <option value="0">Seleccionar categoria</option>
-                    {categories &&
-                        categories.map((category, key) => (
-                            <option key={key} value={category.name}>
-                                {category.name}
-                            </option>
-                        ))}
-                </select>
 
                 <select
                     name="products"
                     onChange={handleProductSelect}
-                    className={`rounded-2xl h-12 w-11/12 text-center ${isEditing || isCreating ? "bg-gray-300" : ""}`}
+                    className={`rounded-2xl h-12 w-11/12 text-center ${
+                        isEditing || isCreating ? "bg-gray-300" : ""
+                    }`}
                     disabled={isEditing || isCreating}
                 >
                     <option value="0">Seleccionar producto</option>
@@ -143,39 +134,6 @@ const EditProducts = () => {
                 <label className="font-bold text-white font-sans text-2xl text-center ">
                     DETALLE DE PRODUCTO
                 </label>
-
-                <input
-                    name="productCategory"
-                    type="text"
-                    maxLength="50"
-                    placeholder="Categoria"
-                    list="categoryList"
-                    disabled={!isEditing && !isCreating}
-                    {...register(
-                        "productCategory",
-                        productValidationRules.productCategory
-                    )}
-                    className={`rounded-2xl h-12 w-11/12 text-center ${
-                        isEditing || isCreating ? "" : "bg-gray-300"
-                    }`}
-                />
-                <datalist id="categoryList">
-                    {categories &&
-                        categories.map((category, key) => (
-                            <option key={key} value={category.name}>
-                                {category.name}
-                            </option>
-                        ))}
-                </datalist>
-
-                {errors?.productCategory && (
-                    <p className="text-red-700">
-                        {productValidationRules.getErrorMessages(
-                            errors,
-                            "productCategory"
-                        )}
-                    </p>
-                )}
 
                 <input
                     name="productName"

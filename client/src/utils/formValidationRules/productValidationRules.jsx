@@ -4,7 +4,7 @@ const productValidationRules = {
         minLength: 3,
         maxLength: 50,
         pattern:
-            /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
+        /^[ a-zA-Z0-9á-úÁ-Ú#ñÑ-]*$/,
         messages: {
             pattern: "Caracteres no permitidos",
             required: "El campo no puede estar vacío",
@@ -17,7 +17,7 @@ const productValidationRules = {
         minLength: 3,
         maxLength: 50,
         pattern:
-            /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
+        /^[ a-zA-Z0-9á-úÁ-Ú#ñÑ-]*$/,
         messages: {
             pattern: "Caracteres no permitidos",
             required: "El campo no puede estar vacío",
@@ -30,7 +30,7 @@ const productValidationRules = {
         minLength: 8,
         maxLength: 300,
         pattern:
-        /^([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+)(\s+([A-Za-zÑñÁáÉéÍíÓóÚú]+['\-]{0,1}[A-Za-zÑñÁáÉéÍíÓóÚú]+))*$/,
+        /^[ a-zA-Z0-9á-úÁ-Ú#ñÑ-]*$/,
         messages: {
             pattern: "Caracteres no permitidos",
             required: "El campo no puede estar vacío",
@@ -41,7 +41,9 @@ const productValidationRules = {
     productPrice: {
         required: true,
         maxLength: 9,
+        pattern: /^[0-9]+[.,]{1,1}[0-9]{2,2}$/,
         messages: {
+            pattern: "Caracteres no permitidos",
             required: "El campo no puede estar vacío",
             maxLength: "Demasiado caro",
         },
@@ -49,7 +51,9 @@ const productValidationRules = {
     productStock: {
         required: true,
         maxLength: 6,
+        pattern: /^[0-9]+$/,
         messages: {
+            pattern: "Caracteres no permitidos",
             required: "El campo no puede estar vacío",
             maxLength: "Son demasiados",
         },
