@@ -1,21 +1,22 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { userContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import LogoutPage from "../pages/LogoutPage";
 import { useLogOutMutation } from "../store/services/userService";
 
 const Logout = () => {
-    const navigate = useNavigate();
+    const [shouldRedirect, setShouldRedirect] = useState(false);
     const [logout] = useLogOutMutation();
-    
+  
     useEffect(() => {
-        logout();
-        setTimeout(() => {
-            navigate("/");
-        }, 3000);
-        return clearTimeout();
-    }, []);
-    return <LogoutPage />;
-};
-
-export default Logout;
+      const timeout = setTimeout(() => {
+        logout().then(() => {
+          setShouldRedirect(true);
+        });
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }, [logout]);
+  
+    return shouldRedirect ? <Navigate to="/" /> : <LogoutPage />;
+  };
+  
+  export default Logout;

@@ -7,9 +7,11 @@ export const users = createApi({
     endpoints: (builder) => ({
         getAllUsers: builder.query({
             query: () => "",
+            providesTags:["me"],
         }),
         getUserById: builder.query({
             query: (id) => `/${id}`,
+            providesTags:["me"],
         }),
         createUser: builder.mutation({
             query: (body) => ({
@@ -24,6 +26,7 @@ export const users = createApi({
                 method: "PUT",
                 body,
             }),
+            invalidatesTags:["me"],
         }),
         deleteUser: builder.mutation({
             query: (id) => ({

@@ -7,46 +7,24 @@ import {
 export const userContext = createContext();
 const { Provider } = userContext;
 export const UserContext = ({ children }) => {
-    const [user, setUser] = useState(null);
-
-    const [updateUser, setUpdateUser] = useState(false)
 
     const [isLoged, setIsLoged] = useState(false);
 
     const { data, isError } = useMeQuery();
 
-    const [getUserQuery, {isError: userIsError, isLoading:userIsLoading }] =
+    const [getUserQuery,{data: userData }] =
     useLazyGetUserByIdQuery();
 
-
-    const setUserState = async () => {
-        const userData = await getUserQuery(data?.result?.id);
-        userIsError ? setUser(null) : userIsLoading ? null : setUser(userData?.data?.results)
-    };
-
-    const toggleIsLoged = () => {
-        setIsLoged(!isLoged);
-    };
-
-    const toggleUpdateUser = () => {
-        setUpdateUser(!updateUser);
-    };
-
     useEffect(() => {
-        if (data) {
-            setUserState();
+        if (data?.result) {
+            getUserQuery(data?.result?.id)
             setIsLoged(true);
         }
 
-        if (!data) {
-            setUser(null);
+        if (!data?.result) {
             setIsLoged(false);
         }
-    }, [data, isError, updateUser]);
-
-    const getUser = () => {
-        return user;
-    };
+    }, [data?.result, isError]);
 
     const getIsLoged = () => {
         return isLoged;
@@ -54,9 +32,8 @@ export const UserContext = ({ children }) => {
 
 
     const actions = {
-        getUser,
         getIsLoged,
-        toggleUpdateUser
+        userData,
     };
 
     return <Provider value={actions}>{children}</Provider>;

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { userContext } from "../context/UserContext";
 
 const Navbar = () => {
-    const { getUser } = useContext(userContext);
-    const user = getUser();
+    const { userData } = useContext(userContext);
+    const user = userData?.results;
 
     const openMenu = () => {
         const bMenu = document.getElementById("menu");
@@ -23,7 +23,6 @@ const Navbar = () => {
                 <Link to="/">
                     <img className="h-8 cursor-pointer" src="/Logo.svg" />
                 </Link>
-
                 <img
                     id="bMenu"
                     className="md:hidden w-8 mx-4 cursor-pointer"
@@ -49,7 +48,6 @@ const Navbar = () => {
                                 >
                                     Carrito
                                 </Link>
-
                                 <Link
                                     to="/user/profile"
                                     className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"

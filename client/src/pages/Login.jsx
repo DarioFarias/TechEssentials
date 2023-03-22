@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { userContext } from "../context/UserContext.jsx";
 import { useLogInMutation } from "../store/services/userService";
 
 const Login = () => {

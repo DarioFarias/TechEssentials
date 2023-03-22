@@ -10,7 +10,7 @@ const Layout = () => {
             <header>
                 <Navbar />
             </header>
-            <main className="flex flex-col flex-grow">
+            <main className="flex flex-col flex-1">
                 <Outlet />
             </main>
             <footer className="flex flex-col flex-shrink-0">

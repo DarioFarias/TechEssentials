@@ -1,9 +1,11 @@
-import React from 'react'
+import EditProducts from "../components/EditProducts";
 
 const ControlPanel = () => {
-  return (
-    <div>ControlPanel</div>
-  )
-}
+    return (
+        <div className=" flex flex-wrap relative items-center justify-evenly p-8 gap-4">
+            <EditProducts/>
+        </div>
+    );
+};
 
-export default ControlPanel
+export default ControlPanel;

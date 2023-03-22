@@ -11,15 +11,15 @@ const Cart = () => {
     <>
       <div
         id="contPrincipal"
-        className="flex w-full flex-wrap justify-evenly p-4 gap-4"
+        className="flex w-full flex-wrap justify-evenly p-4 gap-4 flex-grow"
       >
-        {isLoading && !isError ? (
+        {/* {isLoading && !isError ? (
           <section>Loading...</section>
         ) : (
           pccart && pccart.map((product, key) => {
             return <PCCart key={product.id} pccart={product} />;
           })
-        )}
+        )} */}
       </div>
       <div
         id="sticky"

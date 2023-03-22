@@ -1,5 +1,5 @@
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const filterContext = createContext();
 const { Provider } = filterContext;

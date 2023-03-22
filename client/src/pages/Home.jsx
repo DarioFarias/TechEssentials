@@ -1,6 +1,9 @@
 import ProductCard from "../components/ProductCard";
 import Banner from "../components/Banner";
 import { useGetAllProductsQuery } from "../store/services/productService";
+import { useContext } from "react";
+import { userContext } from "../context/UserContext";
+
 
 const Home = () => {
     const { data, isError, isLoading, error } = useGetAllProductsQuery();

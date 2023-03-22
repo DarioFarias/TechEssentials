@@ -17,11 +17,9 @@ const UserProfileForm = () => {
 
     const [showPassword, setShowPassword] = useState(false);
 
-    const { getUser, toggleUpdateUser } = useContext(userContext);
+    const { userData} = useContext(userContext);
 
-    const user = getUser();
-
-    const userEdited = {};
+    const user = userData?.results;
 
     const {
         register,
@@ -51,11 +49,10 @@ const UserProfileForm = () => {
             delete formData.password;
         }
         const updateData = await updateUser({ id: user.Id, ...formData });
-        updateData.data.success === true
+        updateData?.data?.success === true
             ? alert("Usuario actualizado con éxito")
             : alert("El usuario no se pudo actualizar");
         setIsEditing(false);
-        toggleUpdateUser();
     };
 
     const onCancel = () => {
@@ -100,14 +97,8 @@ const UserProfileForm = () => {
     );
 
     return (
-        <div
-            id="contDatosDesk"
-            className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12"
-        >
-            <label
-                id="datosUser"
-                className="font-bold text-white font-sans text-2xl text-center "
-            >
+        <div className="flex flex-col items-center bg-indigo-600 rounded-2xl p-4 gap-4 w-11/12 sm:w-8/12 md:w-5/12 lg:w-3/12">
+            <label className="font-bold text-white font-sans text-2xl text-center ">
                 DATOS DEL USUARIO
             </label>
 
@@ -201,10 +192,7 @@ const UserProfileForm = () => {
                     <p className="text-red-700">{telErrorMessage}</p>
                 )}
 
-                <div
-                    id="contenedorBotones"
-                    className="flex flex-col justify-center items-center "
-                >
+                <div className="flex flex-col justify-center items-center ">
                     {isEditing ? (
                         <>
                             <button
@@ -233,7 +221,7 @@ const UserProfileForm = () => {
                             </button>
                             <button
                                 type="button"
-                                onClick={() =>onUnsuscribe()}
+                                onClick={() => onUnsuscribe()}
                                 className="btnGrisPerfil text-xl"
                             >
                                 Desuscribirse
