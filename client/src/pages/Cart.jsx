@@ -11,7 +11,7 @@ const Cart = () => {
     <>
       <div
         id="contPrincipal"
-        className="flex w-full flex-wrap justify-evenly p-4 gap-4"
+        className="flex w-full flex-wrap justify-evenly p-4 gap-4 flex-grow"
       >
         {isLoading && !isError ? (
           <section>Loading...</section>
