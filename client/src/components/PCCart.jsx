@@ -51,6 +51,7 @@ const PCCart = ({ pccart }) => {
             </button>
           </div>
           <div id="precio">${pccart.price}</div>
+          {/* aquí multiplicamos por la cantidad de articulos que se tiene */}
           <div id="ST">${pccart.price * 3}</div>
         </div>
 
