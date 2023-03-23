@@ -7,7 +7,6 @@ const Cart = () => {
   const { data, isError, isLoading, error } = useGetAllProductsQuery();
   const pccart = data;
 
-  // Creamos una variable de estado para almacenar el precio total
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
