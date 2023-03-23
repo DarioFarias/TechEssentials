@@ -7,17 +7,18 @@ export const products = createApi({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => '',
+      providesTags: ['products'],
     }),
     getProductById: builder.query({
       query: (id) => `/${id}`,
     }),
-    getProductsByFilters: builder.mutation({
-      query: (body) => ({
-        url: `/searchbyfilters`,
-        method: 'POST',
-        body,
+    getProductsByFilters: builder.query({
+        query: ({id,minPrice,maxPrice}) => `/searchbyfilters/${id}/${minPrice}/${maxPrice}`,
+        providesTags: ['products'],
       }),
-      providesTags: ['products'],
+    getProductsByCategoryIdForAdmins : builder.query({
+        query: (id) => `/searchbyCategory/${id}`,
+        providesTags: ['products'],
     }),
     createProduct: builder.mutation({
       query: (body) => ({
@@ -33,6 +34,7 @@ export const products = createApi({
         method: 'PUT',
         body,
       }),
+      invalidatesTags: ['products'],
     }),
     deleteProductById: builder.mutation({
       query: (id) => ({
@@ -45,7 +47,8 @@ export const products = createApi({
 
 export const {
   useGetAllProductsQuery,
-  useGetProductsByFiltersMutation,
+  useLazyGetProductsByCategoryIdForAdminsQuery,
+  useLazyGetProductsByFiltersQuery,
   useDeleteProductByIdMutation,
   useCreateProductMutation,
   useGetProductByIdQuery,

@@ -8,13 +8,15 @@ const productRoutes = express.Router();
 
 productRoutes.get("/", ProductController.getAllProducts);
 
-productRoutes.post("/searchbyfilters", ProductController.getProductsByFilters);
+productRoutes.get("/searchbyfilters/:id/:minPrice/:maxPrice", ProductController.getProductsByFilters);
 
 productRoutes.get("/:id", ProductController.getProductById);
 
 productRoutes.use(authMe)
 
 productRoutes.use(isAdmin)
+
+productRoutes.get("/searchbyCategory/:id",ProductController.getProductsByCategoryIdForAdmins)
 
 productRoutes.post("/", ProductController.createProduct);
 
