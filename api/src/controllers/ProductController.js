@@ -1,25 +1,34 @@
-import { query } from "express";
 import { Op } from "sequelize";
 import Product from "../models/Product.js";
 class ProductController {
     static async getAllProducts(req, res) {
-        await Product.findAll({
-            attributes: [
-                "id",
-                "idCategory",
-                "name",
-                "description",
-                "price",
-                "stock",
-            ],
-        })
-            .then((results) => {
-                if (results.length === 0) res.status(204).send({ success: false, message: "No hay productos para mostrar" });
-                res.status(200).send(results);
-            })
-            .catch((error) => {
-                res.status(400).send({ success: false, message: error });
+        let query = {
+            stock: { [Op.gt]: 0 },
+            status: true,
+        };
+        try {
+            const results = await Product.findAll({
+                where: query,
+                attributes: [
+                    "id",
+                    "idCategory",
+                    "name",
+                    "description",
+                    "price",
+                    "stock",
+                ],
             });
+            if (results.length === 0) {
+                res.status(204).send({
+                    success: false,
+                    message: "No hay productos para mostrar",
+                });
+            } else {
+                res.status(200).send(results);
+            }
+        } catch (error) {
+            res.status(400).send({ success: false, message: error });
+        }
     }
 
     static async createProduct(req, res) {
@@ -61,13 +70,15 @@ class ProductController {
         }
     }
 
-    static async getProductsByFilters(req, res) {        
+    static async getProductsByFilters(req, res) {
         try {
-            const {idCategory, minPrice, maxPrice} = req.body
-                       
-            const query = (idCategory && !isNaN(idCategory))
-                ? { idCategory: idCategory }
-                : { idCategory: { [Op.ne]: null } } ;
+            const idCategory = req.params.id;
+            const minPrice = req.params.minPrice;
+            const maxPrice = req.params.maxPrice;
+            const query =
+                idCategory && !isNaN(idCategory)
+                    ? { idCategory: idCategory }
+                    : { idCategory: { [Op.ne]: null } };
 
             if (!isNaN(minPrice) && !isNaN(maxPrice)) {
                 query.price = {
@@ -75,13 +86,38 @@ class ProductController {
                 };
             }
 
+            query.stock = { [Op.gt]: 0 };
+            query.status = true;
+
             const results = await Product.findAll({
                 where: query,
                 attributes: ["id", "name", "description", "price", "stock"],
             });
-            if (results.length == 0){
-                res.status(204);    
-            };
+            if (results.length == 0) {
+                res.status(204);
+            }
+            res.status(200).send(results);
+        } catch (error) {
+            res.status(400).send({ success: false, message: error });
+        }
+    }
+
+    static async getProductsByCategoryIdForAdmins(req, res) {
+        try {
+            const idCategory = req.params.id;
+
+            const query =
+                idCategory && !isNaN(idCategory)
+                    ? { idCategory: idCategory }
+                    : { idCategory: { [Op.ne]: null } };
+
+            const results = await Product.findAll({
+                where: query,
+                attributes: ["id", "name", "description", "price", "stock"],
+            });
+            if (results.length == 0) {
+                res.status(204);
+            }
             res.status(200).send(results);
         } catch (error) {
             res.status(400).send({ success: false, message: error });

@@ -11,6 +11,7 @@ Product.init({
     name: {
         type: DataTypes.STRING(50),
         allowNull: false,
+        /* unique: true, */
     },
     description: {
         type: DataTypes.STRING(300),
@@ -23,6 +24,10 @@ Product.init({
     stock: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    status:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
     }
 }, {
     sequelize: dataBase,

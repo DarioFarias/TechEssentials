@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useGetAllCategoriesQuery } from "../store/services/categoryService";
-import { useGetProductsByFiltersMutation } from "../store/services/productService";
+import { useLazyGetProductsByFiltersQuery } from "../store/services/productService";
 
 const Products = () => {
     const { data, isError, isLoading, error } = useGetAllCategoriesQuery();
@@ -18,7 +18,7 @@ const Products = () => {
             isLoading: isProductsLoading,
             error: ProductsError,
         },
-    ] = useGetProductsByFiltersMutation();
+    ] = useLazyGetProductsByFiltersQuery();
 
     const categories = data;
 
@@ -63,7 +63,7 @@ const Products = () => {
     };
 
     useEffect(() => {
-        filter({ idCategory, minPrice, maxPrice });
+        filter({ id: idCategory, minPrice, maxPrice });
     }, [idCategory, minPrice, maxPrice]);
 
     return (
@@ -106,8 +106,8 @@ const Products = () => {
                 </div>
             </div>
             <div className="flex w-full flex-wrap justify-evenly p-4 gap-4">
-                {isProductsError ? (
-                    <section>No hay productos para mostrar</section>
+                { products.length === 0 ? (
+                    <p>No hay productos para mostrar</p>
                 ) : isProductsLoading ? (
                     <section>Cargando</section>
                 ) : (

@@ -5,7 +5,9 @@ const ProductCard = ({ product }) => {
     return (
         <div className="flex relative w-72 h-48 border border-solid border-black rounded-3xl hover:shadow-xl transition duration-500">
             <div className="flex flex-col w-1/2 items-center justify-between">
-                <Link to="/product">
+                <Link
+                    to="/product" state={ product }
+                >
                     <div className="text-center font-bold my-4">
                         {product.name}
                     </div>
@@ -15,7 +17,10 @@ const ProductCard = ({ product }) => {
                 </div>
             </div>
             <div className="flex flex-col w-1/2 items-center justify-evenly">
-                <Link to="/product">
+                <Link
+                    to="/product" state={ product }
+                    
+                >
                     <img
                         className="w-28"
                         src="/Articulo Ejemplo.svg"
