@@ -46,7 +46,7 @@ const ProductCard = ({ product }) => {
                 <Link to="/product" state={product}>
                     <img
                         className="w-28"
-                        src="/Articulo Ejemplo.svg"
+                        src="https://drive.google.com/uc?export=download&id=1Phgdzw3TyplAMtoHLBEAyNXQiKLQUmDB"
                         alt="nombre del producto"
                     />
                 </Link>

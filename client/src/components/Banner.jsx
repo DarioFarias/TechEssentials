@@ -18,7 +18,6 @@ const Banner = () => {
         clickable: true,
       }}
       navigation={true}
-      preloadImages={false}
       className="flex relative w-screen h-72  justify-center"
     >
       <SwiperSlide>
