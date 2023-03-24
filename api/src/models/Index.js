@@ -25,7 +25,6 @@ User.hasMany(Card, {
 
 User.hasMany(Cart, {
   foreignKey: { name: "idUser", allowNull: false },
-  unique:true,
 });
 
 Order.belongsTo(User, {
@@ -63,11 +62,12 @@ Product.hasMany(OrderProduct, {
   },
 });
 
-Product.hasOne(Cart, {
+Product.hasMany(Cart, {
   foreignKey: {
     name: "idProduct",
     allowNull: false,
   },
+  as: "carts,"
 });
 
 Image.belongsTo(Product, {
@@ -117,6 +117,7 @@ Cart.belongsTo(Product, {
     name: "idProduct",
     allowNull: false,
   },
+  as: "product"
 });
 
 Cart.belongsTo(User, {
@@ -126,4 +127,4 @@ Cart.belongsTo(User, {
   },
 });
 
-export { User, Product, Category, Image, OrderProducts, Order, Cart, Card, Adress };
+export { User, Product, Category, Image, OrderProduct, Order, Cart, Card, Adress };

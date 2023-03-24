@@ -106,7 +106,7 @@ const Products = () => {
                 </div>
             </div>
             <div className="flex w-full flex-wrap justify-evenly p-4 gap-4">
-                { products.length === 0 ? (
+                { products?.length === 0 ? (
                     <p>No hay productos para mostrar</p>
                 ) : isProductsLoading ? (
                     <section>Cargando</section>

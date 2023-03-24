@@ -1,11 +1,13 @@
 import React from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { cartContext } from "../context/CartContext";
 import { userContext } from "../context/UserContext";
 
 const Navbar = () => {
     const { userData } = useContext(userContext);
     const user = userData?.results;
+    const {cartData} = useContext(cartContext)
 
     const openMenu = () => {
         const bMenu = document.getElementById("menu");
@@ -46,7 +48,7 @@ const Navbar = () => {
                                     to="/user/cart"
                                     className="text-white mx-3 md:mx-0 hover:text-indigo-700 transition duration-500"
                                 >
-                                    Carrito
+                                    Carrito <span className="text-white text-center text-xs font-bold w-24 py-1 rounded-2xl bg-indigo-700">&nbsp;&nbsp;{cartData ? cartData?.length : "0"}&nbsp;&nbsp;</span>
                                 </Link>
                                 <Link
                                     to="/user/profile"

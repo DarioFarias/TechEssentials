@@ -11,7 +11,6 @@ Product.init({
     name: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        /* unique: true, */
     },
     description: {
         type: DataTypes.STRING(300),
