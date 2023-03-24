@@ -18,8 +18,7 @@ const checkProductStock = async (req, res, next) => {
             }
         }
         if (productsWithLowStock.length > 0) {
-            //SI HAY PRODUCTOS CON PROBLEMAS DE STOCK SE RESPONDE 
-            //CON UN ARREGLO DE TODOS LOS PRODUCTOS CON PROBLEMAS
+
             res.status(400).send(productsWithLowStock);
         } else {
             next();

@@ -18,18 +18,23 @@ export const cart = createApi({
             invalidatesTags: ["cart"],
         }),
         updateCartById: builder.mutation({
-            query: (body) => ({
-                query: ({ id, ...body }) => ({
-                    url: `/${id}`,
-                    method: "PUT",
-                    body,
-                }),
+            query: ({ id, ...body }) => ({
+                url: `/${id}`,
+                method: "PUT",
+                body,
             }),
             invalidatesTags: ["cart"],
         }),
         deleteCartById: builder.mutation({
             query: (id) => ({
                 url: `/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["cart"],
+        }),
+        deleteCartByUserId: builder.mutation({
+            query: () => ({
+                url: `/`,
                 method: "DELETE",
             }),
             invalidatesTags: ["cart"],
@@ -43,4 +48,5 @@ export const {
     useUpdateCartByIdMutation,
     useDeleteCartByIdMutation,
     useLazyGetCartByUserIdQuery,
+    useDeleteCartByUserIdMutation,
 } = cart;

@@ -3,6 +3,8 @@ import {
     useCreateCartMutation,
     useLazyGetCartByUserIdQuery,
     useDeleteCartByIdMutation,
+    useUpdateCartByIdMutation,
+    useDeleteCartByUserIdMutation,
 } from "../store/services/cartService";
 import { userContext } from "./UserContext";
 
@@ -23,6 +25,12 @@ export const CartContext = ({ children }) => {
     const [deleteCart, { data: deleteCartData, error: deleteCartError }] =
         useDeleteCartByIdMutation();
 
+    const [deleteUserCart, { data: deleteUserCartData, error: deleteUserCartError }] =
+        useDeleteCartByUserIdMutation();
+
+    const [updateCart, { data: updateCartData, error: updateCartError }] =
+        useUpdateCartByIdMutation();
+
     useEffect(() => {
         if (user) {
             getCart();
@@ -39,6 +47,12 @@ export const CartContext = ({ children }) => {
         deleteCart,
         deleteCartData,
         deleteCartError,
+        updateCart,
+        updateCartData,
+        updateCartError,
+        deleteUserCart,
+        deleteUserCartData,
+        deleteUserCartError,
     };
 
     return <Provider value={actions}>{children}</Provider>;

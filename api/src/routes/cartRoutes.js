@@ -14,4 +14,6 @@ cartRoutes.put("/:id", CartController.updateCartById);
 
 cartRoutes.delete("/:id", CartController.deleteCartById);
 
+cartRoutes.delete("/", CartController.deleteCartByUserId);
+
 export default cartRoutes;
