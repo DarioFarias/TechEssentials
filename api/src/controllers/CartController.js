@@ -19,14 +19,20 @@ class CartController {
 
     static async getCartByUserId(req, res) {
         try {
-            const results = await Cart.findAll({
+            const cartItems = await Cart.findAll({
                 where: {
                     idUser: req.user.id,
                 },
                 attributes: ["id", "idProduct", "quantity"],
-                /* include: [
-                    {
-                        model: Product,
+            });
+
+            if (cartItems.length === 0) {
+                return res.status(204).send({ message: "No se encontraron productos en el carrito" });
+              }
+
+            const newCartItems = await Promise.all(
+                cartItems.map(async (cartItem) => {
+                    const product = await Product.findByPk(cartItem.idProduct, {
                         attributes: [
                             "idCategory",
                             "name",
@@ -35,17 +41,23 @@ class CartController {
                             "stock",
                             "status",
                         ],
-                    },
-                ], */
-            });
-            if (results.length === 0) {
-                res.status(204).send({
-                    success: false,
-                    message: "No hay productos para mostrar",
-                });
-            } else {
-                res.status(200).send(results);
-            }
+                    });
+
+                    return {
+                        id: cartItem.id,
+                        idProduct: cartItem.idProduct,
+                        quantity: cartItem.quantity,
+                        idCategory:product.idCategory,
+                        name:product.name,
+                        description:product.description,
+                        price:product.price,
+                        stock:product.stock,
+                        status:product.status,
+                    };
+                })
+            );
+
+            return res.status(200).send(newCartItems);
         } catch (error) {
             res.status(400).send({ success: false, message: error.toString() });
         }
@@ -74,10 +86,32 @@ class CartController {
         }
     }
 
+    static async deleteCartByUserId(req, res) {
+        try {
+            const RowsDeleted = await Cart.destroy({
+                where: {
+                    idUser: req.user.id,
+                },
+            });
+            if (RowsDeleted === 0) {
+                res.status(404).send({
+                    success: false,
+                    message: "No se encontró carrito",
+                });
+            } else {
+                res.status(200).send({
+                    success: true,
+                    message: `Productos eliminados del carrito con exito.`,
+                });
+            }
+        } catch (error) {
+            res.status(400).send({ success: false, message: error });
+        }
+    }
+
     static async updateCartById(req, res) {
         try {
             const { quantity } = req.body;
-
             const result = await Cart.update(
                 { quantity },
                 {
