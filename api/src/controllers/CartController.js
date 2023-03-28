@@ -45,6 +45,7 @@ class CartController {
 
                     return {
                         id: cartItem.id,
+                        idUser:req.user.id,
                         idProduct: cartItem.idProduct,
                         quantity: cartItem.quantity,
                         idCategory:product.idCategory,

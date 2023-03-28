@@ -11,8 +11,8 @@ const Profile = () => {
             className=" flex flex-wrap relative items-center justify-evenly p-8 gap-4"
         >
             <UserProfileForm/>
-            <CardProfileForm/>
-            <AdressProfileForm/>
+            {/* <CardProfileForm/>
+            <AdressProfileForm/> */}
         </div>
     );
 };

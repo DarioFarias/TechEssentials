@@ -31,20 +31,6 @@ OrderProduct.init(
     }
 );
 
-OrderProduct.beforeBulkCreate(async (orderProducts) => {
-    let totalProducts = 0;
-    for (let i = 0; i < orderProducts.length; i++) {
-        const product = orderProducts[i];
-        totalProducts += product.price * product.quantity;
-    }
-    const reqOrder = { total: totalProducts, status: "pending" };
-    const order = await Order.create(reqOrder);
-
-    orderProducts.forEach((orderProduct) => {
-        orderProduct.idOrder = order.id;
-    });
-});
-
 OrderProduct.afterBulkCreate(async (orderProducts) => {
     for (let i = 0; i < orderProducts.length; i++) {
         const orderProduct = orderProducts[i];
@@ -53,11 +39,6 @@ OrderProduct.afterBulkCreate(async (orderProducts) => {
             where: { id: orderProduct.idProduct },
         });
     }
-    const RowsDeleted = await Cart.destroy({
-        where: {
-            id: orderProducts[0].idUser,
-        },
-    });
 });
 
 export default OrderProduct;

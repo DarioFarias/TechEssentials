@@ -9,14 +9,15 @@ import Swal from 'sweetalert2';
 
 const Payment = () => {
     const navigate = useNavigate();
-    const { cartData } = useContext(cartContext);
+    const { cartData, deleteUserCart } = useContext(cartContext);
     const [createOrder, { data, error }] = useCreateOrderMutation();
 
     const handleConfirm = async () => {
         const createOrderData = await createOrder(cartData);
         if (createOrderData) {
             showAlert(true);
-            /* navigate("/user/cart") */
+            deleteUserCart();
+            navigate("/")
         } else {
             showAlert(false)
         }
@@ -48,8 +49,8 @@ const Payment = () => {
         <>
             <div className=" flex flex-wrap relative items-center justify-evenly p-8 gap-4">
                 <Ticket />
-                <CardProfileForm />
-                <AdressProfileForm />
+                {/* <CardProfileForm />
+                <AdressProfileForm /> */}
             </div>
             <div className="w-full flex justify-center gap-8 p-8">
                 <button
